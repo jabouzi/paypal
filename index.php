@@ -1,50 +1,29 @@
 <!DOCTYPE html>
-<html class=" js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths" style="" xml:lang="en" lang="en"><head>
+<html>
+<head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-        <meta charset="UTF-8">
-        <meta http-equiv="cache-control" content="public">
-        <meta http-equiv="expires" content="Fri, 30 Dec 2013 12:00:00 GMT">
-       
-        <title>Shopping cart - skyspa</title>
-        <meta name="description" content="Shopping cart">
-        <meta name="keywords" content="">
-        <meta name="robots" content="index,follow">
-        <meta name="author" content="Tonik Groupimage">
+	<meta charset="UTF-8">
+	<meta http-equiv="cache-control" content="public">
+	<meta http-equiv="expires" content="Fri, 30 Dec 2013 12:00:00 GMT">
 
-        <link type="image/x-icon" rel="icon" href="https://skyspa.dev.tgiprojects.com/favicon.ico">
-        <link type="image/x-icon" rel="shortcut icon" href="https://skyspa.dev.tgiprojects.com/favicon.ico">
-				 <link rel="stylesheet" type="text/css" media="screen, projection" href="payment_files/reset.css">
-
-        
-        <link rel="stylesheet" type="text/css" media="screen, projection" href="payment_files/skyspa.css">
-		
-                <link rel="stylesheet" type="text/css" media="print" href="payment_files/print.css">
-
-        <!--[if IE]>
-            <link href="/styles/ie.css" rel="stylesheet" type="text/css" media="screen, projection" />
-        <![endif]-->
-        <script>
-var _gaq = _gaq || [];
-</script>
-
-<script src="payment_files/modernizr-latest.js" type="text/javascript"></script>
-
-<script type="text/javascript" src="payment_files/skyspa-test.js"></script>
-<script src="payment_files/functions.js" type="text/javascript"></script>
-<script src="payment_files/calendar.js" type="text/javascript"></script>
-<script src="payment_files/jquery_002.js" type="text/javascript"></script>
-<script src="payment_files/jquery_004.js"></script>
-
-
-
-<script type="text/javascript" src="payment_files/jquery.js"></script>
-<link rel="stylesheet" href="payment_files/jquery.css" type="text/css" media="screen">
-<script type="text/javascript" src="payment_files/jquery_003.js"></script>
-
-    </head>
-    <body class="firefox-32" style="min-width:320px;" lang="en">
+	<title>Shopping cart - skyspa</title>
+	<meta name="description" content="Shopping cart">
+	<meta name="keywords" content="">
+	<meta name="robots" content="index,follow">
+	<meta name="author" content="Skander Software Solutions">
+	<link rel="stylesheet" type="text/css" media="screen, projection" href="assets/reset.css">
+	<link rel="stylesheet" type="text/css" media="screen, projection" href="assets/paypal.css">
+	<link rel="stylesheet" type="text/css" media="print" href="assets/print.css">
+	<link rel="stylesheet" href="assets/jquery.css" type="text/css" media="screen">
+	<script src="assets/modernizr-latest.js" type="text/javascript"></script>
+	<script type="text/javascript" src="assets/skyspa-test.js"></script>
+	<script src="assets/functions.js" type="text/javascript"></script>
+	<script src="assets/calendar.js" type="text/javascript"></script>
+	<script type="text/javascript" src="assets/jquery.js"></script>
+</head>
+    <body>
 <div id="wrap"><header id="header_nav" class="shopping-top">
-    <h1><a data-trackevent="logoskyspa|clic|boutique/etape2/fr" href="https://skyspa.dev.tgiprojects.com/en/home/"><img alt="SkySpa" src="payment_files/logo_skyspa.png" width="42" height="131"></a></h1>
+    <h1><a data-trackevent="logoskyspa|clic|boutique/etape2/fr" href="https://skyspa.dev.tgiprojects.com/en/home/"><img alt="SkySpa" src="assets/logo_skyspa.png" width="42" height="131"></a></h1>
     <nav class="topnav">
         <div class="inner">
             <ul>
