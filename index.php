@@ -14,7 +14,6 @@
 		<link rel="stylesheet" type="text/css" media="screen, projection" href="assets/reset.css">
 		<link rel="stylesheet" type="text/css" media="screen, projection" href="assets/paypal.css">
 		<link rel="stylesheet" type="text/css" media="print" href="assets/print.css">
-		<link rel="stylesheet" href="assets/jquery.css" type="text/css" media="screen">
 		<script type="text/javascript" src="assets/jquery.min.js"></script>
 	</head>
     <body>
