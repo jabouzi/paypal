@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 	<meta charset="UTF-8">
 	<meta http-equiv="cache-control" content="public">
 	<meta http-equiv="expires" content="Fri, 30 Dec 2013 12:00:00 GMT">
 
-	<title>Shopping cart - skyspa</title>
+	<title>Paypal Payments</title>
 	<meta name="description" content="Shopping cart">
 	<meta name="keywords" content="">
 	<meta name="robots" content="index,follow">
@@ -15,57 +15,19 @@
 	<link rel="stylesheet" type="text/css" media="screen, projection" href="assets/paypal.css">
 	<link rel="stylesheet" type="text/css" media="print" href="assets/print.css">
 	<link rel="stylesheet" href="assets/jquery.css" type="text/css" media="screen">
-	<script src="assets/modernizr-latest.js" type="text/javascript"></script>
 	<script type="text/javascript" src="assets/skyspa-test.js"></script>
 	<script src="assets/functions.js" type="text/javascript"></script>
 	<script src="assets/calendar.js" type="text/javascript"></script>
 	<script type="text/javascript" src="assets/jquery.js"></script>
 </head>
     <body>
-<div id="wrap"><header id="header_nav" class="shopping-top">
-    <h1><a data-trackevent="logoskyspa|clic|boutique/etape2/fr" href="https://skyspa.dev.tgiprojects.com/en/home/"><img alt="SkySpa" src="assets/logo_skyspa.png" width="42" height="131"></a></h1>
-    <nav class="topnav">
-        <div class="inner">
-            <ul>
-			                <li><a data-trackevent="boutique|btretour|etape2/fr" class="bt bt_back_arrow" href="https://skyspa.dev.tgiprojects.com/en/home/"><span>&lt;</span>Retour au site</a></li>
-                <li class="phone">1 866 656 9111</li>
-			</ul>
-		</div>
-	</nav>
-</header>
+		<div id="wrap">
 <div id="shop">
 	<div id="wrapper">
 		
 		<section class="section">
 			<div class="section_inner fixed">
-				<h2 class="main">panier d’achats</h2>
-				<nav class="breadcrumb">
-					<ul>
-						
-						<li>
-							<a href="https://skyspa.dev.tgiprojects.com/en/shopping-cart/">
-						purchases</a></li>
-						
-						
-						<li>
-							<a href="https://skyspa.dev.tgiprojects.com/en/shopping-cart/send-mode/">
-						DELIVERY METHOD</a></li>
-						
-						
-						<li>
-							<a href="https://skyspa.dev.tgiprojects.com/en/shopping-cart/payment-mode/">
-						PAYMENT</a></li>
-						
-						
-						<li class="active">
-						<span>BILLING</span></li>
-						
-						
-						<li class="inactive last">
-						<span>Confirmation</span></li>
-						
-					</ul>
-				</nav>
+				<h2 class="main">Paypal Payments</h2>
 				<section id="step3">
                     <p class="instructions">
                         please fill in the necessary information so we can complete your purchase.                    </p>
@@ -78,13 +40,33 @@
 							<div class="inner">
 								<h3 class="legend">credit card information</h3>
 								<div class="fields onefield">
-									<label>
-										type of card:<br>
-										<select name="CreditCardType">
-											<option value="MasterCard">MasterCard</option>
-											<option value="Visa" selected="selected">Visa</option>
-										</select>
-									</label>
+									<fieldset id="payment_method_choice">
+										<dl>
+											<dt>PAYMENT</dt>
+											<dd id="label_cardtype" class="clearfix">
+												<label class="paypal_wrapper" style="margin-right: 10px;">
+													<input type="radio" value="paypal" id="cardtype1" name="payPal">
+													<img width="60" height="38" class="paypal" alt="PayPal" src="images/paypal.png">
+												</label>
+												<label class="paypal_wrapper"  style="margin-right: 10px;">
+													<input type="radio" value="MasterCard" id="cardtype2" name="cardType">
+													<img width="60" height="38" class="paypal" alt="PayPal" src="images/mastercard.png">
+												</label>
+												<label class="paypal_wrapper"  style="margin-right: 10px;">
+													<input type="radio" value="Visa" id="cardtype3" name="cardType">
+													<img width="60" height="38" class="paypal" alt="PayPal" src="images/visa.png">
+												</label>
+												<label class="paypal_wrapper"  style="margin-right: 10px;">
+													<input type="radio" value="AmericanExpress" id="cardtype4" name="cardType">
+													<img width="60" height="38" class="paypal" alt="PayPal" src="images/americanexpress.png">
+												</label>
+												<label class="paypal_wrapper"  style="margin-right: 10px;">
+													<input type="radio" value="Discover" id="cardtype5" name="cardType">
+													<img width="60" height="38" class="paypal" alt="PayPal" src="images/discover.png">
+												</label>
+											</dd>
+										</dl>
+									</fieldset>
 								</div>
 								<div class="fields twofields">
 									<label>
@@ -112,7 +94,6 @@
 								</div>
 							</div>
 						</fieldset>
-						
 						<fieldset class="sept" style="display: block;">
 							<div class="inner">
 								<h3 class="legend">billing address</h3>
@@ -311,8 +292,11 @@
 						
 						// Validate MasterCard (16) or Visa (13|16) card format
 						$.validator.addMethod('creditcard', function(value, element, params) {
-							var regex = /^(5[1-5]\d{14})|(4[0-9]{12}(?:[0-9]{3})?)$/,
-							isValid = regex.test(value);
+							var luhnArr = [[0,2,4,6,8,1,3,5,7,9],[0,1,2,3,4,5,6,7,8,9]], sum = 0;
+							value.replace(/\D+/g,"").replace(/[\d]/g, function(c, p, o){
+								sum += luhnArr[ (o.length-p)&1 ][ parseInt(c,10) ];
+							});
+							isValid = (sum%10 === 0) && (sum > 0);
 							return isValid;
 						}, 'Invalide(<span class="example">1234567890123456</span>)');
 						
@@ -334,95 +318,5 @@
 	</div>
 	
 </div>	
-<div id="push"></div>
 </div>
-<nav class="globalnav">
-	<div class="inner clearfix">
-		<ul class="primary">
-			<li data-nav="home" class=""><a class="hashable" href="https://skyspa.dev.tgiprojects.com/en/home/">Home</a></li>
-			<li data-nav="space" class=""><a class="hashable" href="https://skyspa.dev.tgiprojects.com/en/skyspa/terraces-and-baths/">Terraces and baths</a></li>
-			<li data-nav="treatment" class=""><a class="hashable" href="https://skyspa.dev.tgiprojects.com/en/treatments-and-prices/">Treatments and prices</a></li>
-            			<li data-nav="events" class=""><a class="hashable" href="https://skyspa.dev.tgiprojects.com/en/events/">Events</a></li>
-			<li data-nav="events" class=""><a class="hashable" href="https://skyspa.dev.tgiprojects.com/en/promotions/">Promotions</a></li>
-			<li data-nav="giftcard"><a class="hashable" href="https://skyspa.dev.tgiprojects.com/en/gift-cards/">Gift cards</a></li>
-			<li data-nav="contact"><a class="hashable" href="https://skyspa.dev.tgiprojects.com/en/hours-and-contact-info/">Hours and contact info</a></li>
-			<li data-nav="galerie-video"><a class="hashable" href="https://skyspa.dev.tgiprojects.com/en/video-gallery/">Video gallery</a></li>
-			<li><a class="hashable" href="https://skyspa.dev.tgiprojects.com/blog/?lang=en">Blog</a></li>
-			
-		</ul>
-		<ul class="primary second">
-			<ul class="conditions">
-				<li class="conditions"><a data-trackevent="lightbox|conditions|fr" data-lightbox-id="rules" class="btlightbox" href="javascript:;">
-                        TERMS <br>AND CONDITIONS</a></li>
-                			</ul>
-		</ul>
-	</div>
-</nav>
-<div id="lightbox_rules" class="lightbox" style="display: none;">
-    <div class="overlay"></div>
-    <div class="box">
-        <div class="box_inner">
-            <h1>Terms and conditions</h1>
-			<h2>
-	What you need to know</h2>
-<p>
-	A swimsuit and sandals are obligatory in the spa. Shampoo, soap and 
-hair dryers are available in the locker rooms. You can rent a bathrobe 
-or use your own. The minimum age required to access spa facilities is 
-16. The minimum age for massage services and treatments is 18. The 
-thermal experience is not recommended for pregnant women, anyone with 
-heart or respiratory problems, or anyone suffering from high blood 
-pressure or diabetes. The advice of a doctor is strongly recommended. 
-Drinking alcohol is not recommended before the thermal experience. 
-Lunches, glass containers, cameras and cell phones are not allowed. 
-Smoking in or around the spa is prohibited. We offer all of our guests 
-the chance to relax in a calm, inviting environment. Upon your arrival, 
-please speak softly.</p>
-<h2>
-	Terms and conditions for reservations<br>
-	and online purchases</h2>
-<p>
-	A credit card is required to book massages and treatments. Reservations
- can be made by phone or in person. A valid credit card is required to 
-confirm your reservation; any reservation cancelled or modified less 
-than 48 hours before the appointment will incur a charge of 50% of the 
-full treatment value. If a reserved treatment is cancelled or modified 
-less than 24 hours before the appointment, the full treatment value will
- be charged to your credit card. We don’t take reservations for the 
-thermal experience. For your comfort, we have established a maximum 
-capacity of people who can use our services at one time. Thank you for 
-arriving 30 minutes before your massage or treatment. All of our massage
- therapists are members of a recognized association or federation and 
-can provide you with insurance receipts upon request. Prices are in 
-Canadian dollars, do not include taxes and are subject to change without
- notice. Online purchases from our boutique are non-refundable, 
-non-exchangeable, and cannot be exchanged for cash. We cannot be held 
-responsible for online purchases delayed by Canada Post.</p>
-<h2>
-	Terms and conditions for gift cards</h2>
-<p>
-	Activating the gift card confirms your acceptance of our terms of use. 
-The gift card is accepted as a form of payment for services, products 
-and packages offered at SkySpa. The total amount of your purchases is 
-deducted from the balance on the card. It is not refundable, has no 
-monetary value, and cannot be replaced in the event of damage, loss or 
-theft.</p>
-<h2>
-	Terms and conditions for vouchers<br>
-	and privilege cards</h2>
-<p>
-	The voucher is valid for one year after the issue date indicated at the
- top. It cannot be used to buy food or drink at Station Saveurs. It is 
-not refundable, has no monetary value, and cannot be replaced in the 
-event of damage, loss or theft. The voucher is transferable, but the 
-recipient has to have it in their possession when visiting SkySpa.</p>			
-		</div>
-        <a class="btclose" href="javascript:;">Fermer</a>
-    </div>
-</div>
-<input id="site_lang" value="en" type="hidden">
-<input id="page_index" value="472" type="hidden">
-
-
-	
-<div style="display: none;" id="cboxOverlay"></div><div style="display: none;" tabindex="-1" role="dialog" class="" id="colorbox"><div id="cboxWrapper"><div><div style="float: left;" id="cboxTopLeft"></div><div style="float: left;" id="cboxTopCenter"></div><div style="float: left;" id="cboxTopRight"></div></div><div style="clear: left;"><div style="float: left;" id="cboxMiddleLeft"></div><div style="float: left;" id="cboxContent"><div style="float: left;" id="cboxTitle"></div><div style="float: left;" id="cboxCurrent"></div><button id="cboxPrevious" type="button"></button><button id="cboxNext" type="button"></button><button id="cboxSlideshow"></button><div style="float: left;" id="cboxLoadingOverlay"></div><div style="float: left;" id="cboxLoadingGraphic"></div></div><div style="float: left;" id="cboxMiddleRight"></div></div><div style="clear: left;"><div style="float: left;" id="cboxBottomLeft"></div><div style="float: left;" id="cboxBottomCenter"></div><div style="float: left;" id="cboxBottomRight"></div></div></div><div style="position: absolute; width: 9999px; visibility: hidden; display: none;"></div></div></body></html>
+</body></html>
