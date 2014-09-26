@@ -37,22 +37,6 @@ table {
     border-collapse: collapse;
     border-spacing: 0;
 }
-@font-face {
-    font-family: "PFDinTextPro-Regular";
-    src: url("/skins/default/media/fonts/pf_din_textpro_reg.eot?#iefix") format("embedded-opentype"), url("/skins/default/media/fonts/pf_din_textpro_reg.woff") format("woff"), url("/skins/default/media/fonts/pf_din_textpro_reg.ttf") format("truetype"), url("/skins/default/media/fonts/pf_din_textpro_reg.svg#wf") format("svg");
-}
-@font-face {
-    font-family: "PFDinTextPro-Medium";
-    src: url("/skins/default/media/fonts/pf_din_textpro_med.eot?#iefix") format("embedded-opentype"), url("/skins/default/media/fonts/pf_din_textpro_med.woff") format("woff"), url("/skins/default/media/fonts/pf_din_textpro_med.ttf") format("truetype"), url("/skins/default/media/fonts/pf_din_textpro_med.svg#wf") format("svg");
-}
-@font-face {
-    font-family: "PFDinTextPro-Light";
-    src: url("/skins/default/media/fonts/pf_din_textpro_light.eot?#iefix") format("embedded-opentype"), url("/skins/default/media/fonts/pf_din_textpro_light.woff") format("woff"), url("/skins/default/media/fonts/pf_din_textpro_light.ttf") format("truetype"), url("/skins/default/media/fonts/pf_din_textpro_light.svg#wf") format("svg");
-}
-@font-face {
-    font-family: "PFDinTextPro-ExtraThin";
-    src: url("/skins/default/media/fonts/pf_din_textpro_extrathin.eot?#iefix") format("embedded-opentype"), url("/skins/default/media/fonts/pf_din_textpro_extrathin.woff") format("woff"), url("/skins/default/media/fonts/pf_din_textpro_extrathin.ttf") format("truetype"), url("/skins/default/media/fonts/pf_din_textpro_extrathin.svg#wf") format("svg");
-}
 body, html {
     background: none repeat scroll 0 0 #FFFFFF;
     color: #000000;
@@ -172,32 +156,11 @@ nav.main a, .breadcrumb a {
     margin-right: 5px;
     text-align: right;
 }
-.globalnav .spas_network a {
-    background: url("/skins/default/media/images/img-sky/ui/spr_skyspa.png") no-repeat scroll 0 -60px transparent;
-/*     background: url("/skins/default/media/images/img-sky/ui/spr_skyspa.png") no-repeat scroll 0 -60px transparent;
-.closebtn{background:url(/skins/default/media/images/img-sky/btn-closeopen.png) no-repeat} 
-C:\wamp\www\skyspa\skins\default\media\images\img-sky\*/
-    border: 0 none;
-    display: block;
-    height: 48px;
-    overflow: hidden;
-    padding: 0;
-    text-indent: -99em;
-    width: 37px;
-}
-.ie9 .globalnav {
-    background: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzhlMDAwMCIgc3RvcC1vcGFjaXR5PSIwLjc4Ii8+CiAgICA8c3RvcCBvZmZzZXQ9IjElIiBzdG9wLWNvbG9yPSIjOGUwMDAwIiBzdG9wLW9wYWNpdHk9IjAuNzgiLz4KICAgIDxzdG9wIG9mZnNldD0iMzAlIiBzdG9wLWNvbG9yPSIjYjAxNTAwIiBzdG9wLW9wYWNpdHk9IjAuNzgiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2M3MTcwMCIgc3RvcC1vcGFjaXR5PSIwLjc4Ii8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=") repeat scroll 0 0 transparent;
-    filter: none;
-}
-.ie7 .globalnav .primary {
-    display: inline;
-}
 a.ext {
     padding-right: 25px;
     position: relative;
 }
-a.ext span {
-    background: url("/skins/default/media/images/img-sky/ui/spr_skyspa.png") no-repeat scroll -60px -60px transparent;
+a.ext span {s
     display: block;
     height: 7px;
     overflow: hidden;
@@ -248,7 +211,6 @@ a.ext:hover span {
 }
 .icon-active {background-position: -90px -120px!important;}
 .topnav .cart .icon {
-    background: url("/skins/default/media/images/img-sky/ui/spr_skyspa.png") no-repeat scroll -90px -90px transparent;
     display: block;
     height: 17px;
     overflow: hidden;
@@ -287,7 +249,6 @@ a.ext:hover span {
     padding-right: 0;
 }
 .topnav .facebook a span {
-    background: url("/skins/default/media/images/img-sky/ui/spr_skyspa.png") no-repeat scroll 0 0 transparent;
     display: block;
     height: 20px;
     overflow: hidden;
@@ -341,7 +302,6 @@ a.ext:hover span {
     top: -20px;
 }
 .ltie10 .tooltip .tip .inner {
-    background: url("/skins/default/media/images/img-sky/ui/ie_toptip.png") no-repeat scroll 0 0 transparent;
     box-shadow: 0 0 0 transparent;
     height: 15px;
     margin-top: 0;
@@ -369,7 +329,6 @@ a.ext:hover span {
     padding: 15px;
 }
 #newsletter .btclose {
-    background: url("/skins/default/media/images/img-sky/ui/spr_skyspa.png") no-repeat scroll -206px 4px transparent;
     display: block;
     height: 21px;
     overflow: hidden;
@@ -412,7 +371,6 @@ a.ext:hover span {
     font-size: 11px;
 }
 label.error_msg {
-    background: url("/skins/default/media/images/img-sky/ui/ico_fielderror.png") no-repeat scroll 5px 5px transparent;
     clear: left;
     color: #D41414;
     display: block;
@@ -541,7 +499,6 @@ label.error_msg {
     max-width: 100%;
 }
 .bubble1a {
-    background-image: url("/skins/default/media/images/img-sky/bg/img_bubble1a.png");
     background-position: 0 0;
     background-repeat: no-repeat;
     display: none;
@@ -557,7 +514,6 @@ label.error_msg {
     max-width: 100%;
 }
 .bubble1b {
-    background-image: url("/skins/default/media/images/img-sky/bg/img_bubble1b.png");
     background-position: 0 0;
     background-repeat: no-repeat;
     display: none;
@@ -573,7 +529,6 @@ label.error_msg {
     max-width: 100%;
 }
 .bubble2 {
-    background-image: url("/skins/default/media/images/img-sky/bg/img_bubble1b.png");
     background-position: 0 0;
     background-repeat: no-repeat;
     display: none;
@@ -588,7 +543,6 @@ label.error_msg {
     max-width: 100%;
 }
 .bubble3 {
-    background-image: url("/skins/default/media/images/img-sky/bg/img_bubble2.png");
     background-position: 0 0;
     background-repeat: no-repeat;
     display: none;
@@ -603,7 +557,6 @@ label.error_msg {
     max-width: 100%;
 }
 .bubble4 {
-    background-image: url("/skins/default/media/images/img-sky/bg/img_bubble3.png");
     background-position: 0 0;
     background-repeat: no-repeat;
     display: none;
@@ -618,7 +571,6 @@ label.error_msg {
     max-width: 100%;
 }
 .bubble5 {
-    background-image: url("/skins/default/media/images/img-sky/bg/img_bubble4.png");
     background-position: 0 0;
     background-repeat: no-repeat;
     display: none;
@@ -636,7 +588,6 @@ label.error_msg {
     position: absolute;
 }
 .rock1 {
-    background-image: url("/skins/default/media/images/img-sky/bg/img_rock1.png");
     background-position: 0 0;
     background-repeat: no-repeat;
     display: none;
@@ -651,7 +602,6 @@ label.error_msg {
     max-width: 100%;
 }
 .rock2 {
-    background-image: url("/skins/default/media/images/img-sky/bg/img_rock2.png");
     background-position: 0 0;
     background-repeat: no-repeat;
     display: none;
@@ -666,7 +616,6 @@ label.error_msg {
     max-width: 100%;
 }
 .rock3 {
-    background-image: url("/skins/default/media/images/img-sky/bg/img_rock3.png");
     background-position: 0 0;
     background-repeat: no-repeat;
     display: none;
@@ -681,7 +630,6 @@ label.error_msg {
     max-width: 100%;
 }
 .rock4 {
-    background-image: url("/skins/default/media/images/img-sky/bg/img_rock4.png");
     background-position: 0 0;
     background-repeat: no-repeat;
     display: none;
@@ -696,7 +644,6 @@ label.error_msg {
     max-width: 100%;
 }
 .rock5 {
-    background-image: url("/skins/default/media/images/img-sky/bg/img_rock5.png");
     background-position: 0 0;
     background-repeat: no-repeat;
     display: none;
@@ -727,7 +674,6 @@ nav.main li.active a, nav.main li.active span, .article_nav li.active a, .articl
     font-weight: 500;
 }
 nav.main a, nav.main span, .article_nav a, .article_nav span, .breadcrumb a, .breadcrumb span {
-    background: url("/skins/default/media/images/img-sky/ui/tip_sectionnav.png") no-repeat scroll 30% 43px transparent;
     color: #000000;
     display: block;
     font: 200 15px/25px 'PFDinTextPro-Light',sans-serif;
@@ -742,7 +688,6 @@ nav.main a:hover, nav.main a:active, nav.main span:hover, nav.main span:active, 
     margin-right: 0;
 }
 .breadcrumb li {
-    background: url("/skins/default/media/images/img-sky/ui/tip_nextsection.png") no-repeat scroll 100% 7px transparent;
 }
 .breadcrumb li a:hover, .breadcrumb li a:active {
     background-position: 50% 35px;
@@ -836,19 +781,9 @@ section .bg_part {
     width: 60%;
 }
 .sept {
-    background: url("/skins/default/media/images/img-sky/ui/sepb_dot_red.png") repeat-x scroll 0 0 transparent;
 }
 .sept_solid {
     border-top: 1px solid #000000;
-}
-.sepr {
-    background: url("/skins/default/media/images/img-sky/ui/sep_dot_red.png") repeat-y scroll 100% 0 transparent;
-}
-.sepb {
-    background: url("/skins/default/media/images/img-sky/ui/sepb_dot_red.png") repeat-x scroll 0 100% transparent;
-}
-.sepl {
-    background: url("/skins/default/media/images/img-sky/ui/sepb_dot_red.png") repeat-y scroll 0 0 transparent;
 }
 .price_wrapper, .time_wrapper {
     margin: 20px 0;
@@ -885,7 +820,6 @@ section .bg_part {
     margin-bottom: 0;
 }
 .links a, .cta {
-    background: url("/skins/default/media/images/img-sky/ui/ico_arrow.png") no-repeat scroll 100% 2px transparent;
     padding-bottom: 10px;
     padding-right: 15px;
     text-decoration: underline;
@@ -904,7 +838,6 @@ section .bg_part {
     padding-top: 30px;
 }
 .item {
-    background: url("/skins/default/media/images/img-sky/ui/sepb_dot_red.png") repeat-x scroll 0 -3px transparent;
     overflow: hidden;
     text-transform: uppercase;
 }
@@ -946,7 +879,6 @@ section .bg_part {
     top: -0.3em;
 }
 .item .buttons button {
-    background: url("/skins/default/media/images/img-sky/ui/ico_plus.png") no-repeat scroll 7px 6px #BBB2A7;
     font: 500 11px/23px 'PFDinTextPro-Medium',sans-serif;
     margin-top: 14px;
     padding: 0 8px 0 25px;
@@ -1009,7 +941,6 @@ a.icomap {
     position: relative;
 }
 a.icomap span {
-    background: url("/skins/default/media/images/img-sky/ui/spr_skyspa.png") no-repeat scroll -60px 0 transparent;
     display: block;
     height: 16px;
     left: 0;
@@ -1119,7 +1050,6 @@ strong {
     text-transform: uppercase;
 }
 .lightbox .btclose {
-    background: url("/skins/default/media/images/img-sky/ui/spr_skyspa.png") no-repeat scroll -235px 5px transparent;
     display: block;
     height: 55px;
     overflow: hidden;
@@ -1194,7 +1124,6 @@ strong {
     padding-top: 0;
 }
 .ltie9 .lightbox .overlay {
-    background: url("/skins/default/media/images/img-sky/ui/bg_black.8_ie8.png") repeat scroll 0 0 transparent;
 }
 .carrousel {
     overflow: hidden;
@@ -1204,7 +1133,6 @@ strong {
     overflow: hidden;
 }
 .carrousel .dots a {
-    background: url("/skins/default/media/images/img-sky/ui/spr_skyspa.png") no-repeat scroll -150px -30px transparent;
     display: block;
     height: 11px;
     overflow: hidden;
@@ -1690,7 +1618,6 @@ strong {
     display: block;
 }
 #home_promos .pdf {
-    background: url("/skins/default/media/images/img-sky/ui/ico_external.png") no-repeat scroll 100% 2px transparent;
     padding-right: 20px;
     position: relative;
 }
@@ -2275,7 +2202,6 @@ footer .buttons button, footer .buttons .bt {
     width: 11px;
 }
 .quantity .btadd span {
-    background: url("/skins/default/media/images/img-sky/ui/spr_skyspa.png") no-repeat scroll -120px 0 transparent;
     display: block;
     overflow: hidden;
     text-indent: -99em;
@@ -2287,7 +2213,6 @@ footer .buttons button, footer .buttons .bt {
     background-position: -120px -30px;
 }
 .quantity .btremove span {
-    background: url("/skins/default/media/images/img-sky/ui/spr_skyspa.png") no-repeat scroll -90px 0 transparent;
     display: block;
     overflow: hidden;
     text-indent: -99em;
@@ -2316,7 +2241,6 @@ footer .buttons button, footer .buttons .bt {
     margin: 6px 0 7px;
 }
 .bt_remove_item {
-    background: url("/skins/default/media/images/img-sky/ui/spr_skyspa.png") no-repeat scroll -120px -87px transparent;
     cursor: pointer;
     display: block;
     height: 23px;
@@ -2338,7 +2262,6 @@ footer .buttons button, footer .buttons .bt {
     position: relative;
 }
 .bt_back_arrow span {
-    background: url("/skins/default/media/images/img-sky/ui/spr_skyspa.png") no-repeat scroll -150px -120px transparent;
     display: block;
     height: 7px;
     left: 9px;
@@ -2357,7 +2280,6 @@ footer .buttons button, footer .buttons .bt {
     position: relative;
 }
 .bt_next_arrow span {
-    background: url("/skins/default/media/images/img-sky/ui/spr_skyspa.png") no-repeat scroll -150px -90px transparent;
     display: block;
     height: 7px;
     margin-top: -3px;
@@ -2534,13 +2456,6 @@ a:focus, object:focus, input:focus, textarea:focus, select:focus {
 	#page_externe  .massage .block .right img{ margin-bottom:20px; }
 	/* #page_externe .simple-p h3 {padding-top:20px} */
 	
-/* .tgi-nav1 li a.active {
-  background: url("/medias/img/ui/tip_sectionnav.png") no-repeat scroll 30% 43px transparent;
-  color: #000000;
-  display: block;
-  text-transform: uppercase;
-}
- */
 
 
 
@@ -2550,7 +2465,6 @@ a:focus, object:focus, input:focus, textarea:focus, select:focus {
 
 
 
-ul.tgi-nav1 > li > a{background:url(/skins/default/media/images/img-sky/ui/tip_sectionnav.png) no-repeat scroll center 43px transparent;color:#000000;display:block;font:200 17px/25px PFDinTextPro-Light,sans-serif;text-transform:uppercase;padding:0 15px 18px}
 ul.tgi-nav1 > li:first-child > a{padding-left:0;background-position:30% 43px}
 
 ul.tgi-nav1 > li > a.active{background-position:center 31px}

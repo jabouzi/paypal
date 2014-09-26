@@ -15,6 +15,7 @@
 		<link rel="stylesheet" type="text/css" media="screen, projection" href="assets/paypal.css">
 		<link rel="stylesheet" type="text/css" media="print" href="assets/print.css">
 		<script type="text/javascript" src="assets/jquery.min.js"></script>
+		<script type="text/javascript" src="assets/functions.js"></script>
 	</head>
     <body>
 		<div id="wrap">
@@ -24,15 +25,11 @@
 						<div class="section_inner fixed">
 							<h2 class="main">Paypal Payments</h2>
 							<section id="step3">
-								<form action="process.php" type="POST">
+								<form action="/process.php" method="POST">
 								<p class="instructions">
-									please fill in the necessary information so we can complete your purchase.                    </p>
-													<form id="f_step4" autocomplete="off" action="" method="post" novalidate="novalidate">
+									please fill in the necessary information so we can complete your purchase.</p>
 									
-									<input value="CA" name="PayerAddress[country]" type="hidden">
-									<input value="Visa" name="CreditCardType" type="hidden">
-									
-									<fieldset id="payment_creditcard" style="display: block;">
+									<fieldset class="sept">
 										<div class="inner">
 											<h3 class="legend">credit card information</h3>
 											<div class="fields onefield">
@@ -41,30 +38,34 @@
 														<dt>PAYMENT</dt>
 														<dd id="label_cardtype" class="clearfix">
 															<label class="paypal_wrapper" style="margin-right: 10px;">
-																<input type="radio" value="paypal" id="cardtype1" name="payPal">
+																<input type="radio" value="paypal" id="cardtype1" name="PayerAddress[cardType]" class="cardType">
 																<img width="60" height="38" class="paypal" alt="PayPal" src="images/paypal.png">
 															</label>
 															<label class="paypal_wrapper"  style="margin-right: 10px;">
-																<input type="radio" value="MasterCard" id="cardtype2" name="cardType">
+																<input type="radio" value="MasterCard" id="cardtype2" name="PayerAddress[cardType]" class="cardType">
 																<img width="60" height="38" class="paypal" alt="PayPal" src="images/mastercard.png">
 															</label>
 															<label class="paypal_wrapper"  style="margin-right: 10px;">
-																<input type="radio" value="Visa" id="cardtype3" name="cardType">
+																<input type="radio" value="Visa" id="cardtype3" name="PayerAddress[cardType]" class="cardType">
 																<img width="60" height="38" class="paypal" alt="PayPal" src="images/visa.png">
 															</label>
 															<label class="paypal_wrapper"  style="margin-right: 10px;">
-																<input type="radio" value="AmericanExpress" id="cardtype4" name="cardType">
+																<input type="radio" value="AmericanExpress" id="cardtype4" name="PayerAddress[cardType]" class="cardType">
 																<img width="60" height="38" class="paypal" alt="PayPal" src="images/americanexpress.png">
 															</label>
 															<label class="paypal_wrapper"  style="margin-right: 10px;">
-																<input type="radio" value="Discover" id="cardtype5" name="cardType">
+																<input type="radio" value="Discover" id="cardtype5" name="PayerAddress[cardType]" class="cardType">
 																<img width="60" height="38" class="paypal" alt="PayPal" src="images/discover.png">
 															</label>
 														</dd>
 													</dl>
 												</fieldset>
 											</div>
+										</div>
+									</fieldset>
+									<fieldset class="sept credit">
 											<div class="fields twofields">
+												<fieldset id="payment_method_choice">
 												<label>
 													card number<br>
 													<input maxlength="16" placeholder="0000000000000000" name="CreditCardNumber" type="text">
@@ -77,8 +78,10 @@
 													<label for="creditcard_exp_year">expiration date (year)</label>
 													<input maxlength="2" placeholder="aa" name="ExpYear" id="creditcard_exp_year" type="text">
 												</div>
+												</fieldset>
 											</div>
 											<div class="fields twofields">
+												<fieldset id="payment_method_choice">
 												<label id="security_code">
 													Security code<br>
 													<input maxlength="3" id="securitycode" name="CVV2" type="text">
@@ -87,12 +90,12 @@
 													name on the card <br>
 													<input name="CardOwner" id="card_owner" type="text">
 												</label>
+												</fieldset>
 											</div>
-										</div>
 									</fieldset>
-									<fieldset class="sept" style="display: block;">
+									<fieldset class="sept credit">
 										<div class="inner">
-											<h3 class="legend">billing address</h3>
+											<h3 class="legend">Billing address</h3>
 																			
 											
 											<div id="billing_adress" class="fieldset">
@@ -151,6 +154,60 @@
 										</div>
 									</fieldset>
 									
+									<fieldset class="sept credit">
+										<div class="inner">
+											<h3 class="legend">Shipping address</h3>
+											<div class="fields twofields">								
+												<label>	Same as Billing
+													<input name="PayerAddress[shipping_billing]" id="shipping_billing" type="checkbox">
+												</label>
+											</div>
+											<div id="shipping_adress" class="fieldset">
+												<div class="fields twofields">
+													<label>
+														ADDRESS<br>
+														<input name="PayerAddress[shipping_street1]" type="text">
+													</label>
+													<label>
+														ADDRESS 2<br>
+														<input name="PayerAddress[shipping_street2]" type="text">
+													</label>
+												</div>
+												<div class="fields threefields">
+													<label>
+														city<br>
+														<input name="PayerAddress[shipping_city_name]" type="text">
+													</label>
+													<label>
+														Province<br>
+														<select id="state_or_province" name="PayerAddress[shipping_state_or_province]">
+															<option value="AB" selected="selected">Alberta</option>
+															<option value="BC">British Columbia</option>
+															<option value="MB">Manitoba</option>
+															<option value="NB">New Brunswick</option>
+															<option value="NL">Newfoundland and Labrador</option>
+															<option value="NT">Northwest Territories</option>
+															<option value="NS">Nova Scotia</option>											
+															<option value="NU">Nunavut</option>
+															<option value="ON">Ontario</option>
+															<option value="PE">Prince Edward Island</option>
+															<option value="QC">Québec</option>	
+															<option value="SK">Saskatchewan</option>										
+															<option value="YT">Yukon</option>
+														</select>
+													</label>
+													<div id="label_postalcode" class="label">
+														Postal Code<br>
+														<label for="postalcode1"></label>
+														<input maxlength="3" name="PayerAddress[shipping_postal_code1]" id="postalcode1" type="text">
+														<label for="postalcode2">Postal Code (3 last characters)</label>
+														<input maxlength="3" name="PayerAddress[shipping_postal_code2]" id="postalcode2" type="text">
+													</div>
+												</div>
+											</div>
+										</div>
+									</fieldset>
+									
 									<fieldset class="sept">
 										<div class="inner">
 											<h3 class="legend">billing contact</h3>
@@ -159,7 +216,7 @@
 												<div class="fields twofields">
 													<label class="tip_tel">
 														phone number<br>
-														<span data-info="Pour confirmation d'achat" class="ttip">?</span>
+														<span data-info="Pour confirmation d'achat"></span>
 														<input name="PayerAddress[phone]" type="tel">
 														
 													</label>
@@ -175,7 +232,6 @@
 									
 									<footer>
 										<div class="buttons">
-											<a class="bt bt_light bt_back_arrow" href="https://skyspa.dev.tgiprojects.com/en/shopping-cart/payment-mode/"><span></span>return to previous step</a>
 											<div class="ff_fake_button">
 												<button class="bt_submit bt_next_arrow" name="bt_submit" type="submit">Pay<span></span></button>
 											</div>
