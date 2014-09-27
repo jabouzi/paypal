@@ -17,10 +17,10 @@
 		<script type="text/javascript" src="assets/jquery.min.js"></script>
 		<script type="text/javascript" src="assets/functions.js"></script>
 	</head>
-    <body>
+	<body>
 		<div id="wrap">
 			<div id="shop">
-				<div id="wrapper">			
+				<div id="wrapper">
 					<section class="section">
 						<div class="section_inner fixed">
 							<h2 class="main">Paypal Payments</h2>
@@ -28,7 +28,7 @@
 								<form action="/process.php" method="POST">
 								<p class="instructions">
 									please fill in the necessary information so we can complete your purchase.</p>
-									
+
 									<fieldset class="sept">
 										<div class="inner">
 											<h3 class="legend">credit card information</h3>
@@ -39,23 +39,31 @@
 														<dd id="label_cardtype" class="clearfix">
 															<label class="paypal_wrapper" style="margin-right: 10px;">
 																<input type="radio" value="paypal" id="cardtype1" name="PayerAddress[cardType]" class="cardType">
-																<img width="60" height="38" class="paypal" alt="PayPal" src="images/paypal.png">
+																<img class="paypal" alt="PayPal" src="images/paypal.png">
 															</label>
 															<label class="paypal_wrapper"  style="margin-right: 10px;">
 																<input type="radio" value="MasterCard" id="cardtype2" name="PayerAddress[cardType]" class="cardType">
-																<img width="60" height="38" class="paypal" alt="PayPal" src="images/mastercard.png">
+																<img class="paypal" alt="PayPal" src="images/mastercard.png">
 															</label>
 															<label class="paypal_wrapper"  style="margin-right: 10px;">
 																<input type="radio" value="Visa" id="cardtype3" name="PayerAddress[cardType]" class="cardType">
-																<img width="60" height="38" class="paypal" alt="PayPal" src="images/visa.png">
+																<img class="paypal" alt="PayPal" src="images/visa.png">
 															</label>
 															<label class="paypal_wrapper"  style="margin-right: 10px;">
 																<input type="radio" value="AmericanExpress" id="cardtype4" name="PayerAddress[cardType]" class="cardType">
-																<img width="60" height="38" class="paypal" alt="PayPal" src="images/americanexpress.png">
+																<img class="paypal" alt="PayPal" src="images/americanexpress.png">
 															</label>
 															<label class="paypal_wrapper"  style="margin-right: 10px;">
 																<input type="radio" value="Discover" id="cardtype5" name="PayerAddress[cardType]" class="cardType">
-																<img width="60" height="38" class="paypal" alt="PayPal" src="images/discover.png">
+																<img class="paypal" alt="PayPal" src="images/discover.png">
+															</label>
+															<label class="paypal_wrapper"  style="margin-right: 10px;">
+																<input type="radio" value="DinersClub" id="cardtype6" name="PayerAddress[cardType]" class="cardType">
+																<img class="paypal" alt="PayPal" src="images/dinersclub.png">
+															</label>
+															<label class="paypal_wrapper"  style="margin-right: 10px;">
+																<input type="radio" value="Solo" id="cardtype7" name="PayerAddress[cardType]" class="cardType">
+																<img class="paypal" alt="PayPal" src="images/solo.png">
 															</label>
 														</dd>
 													</dl>
@@ -68,13 +76,13 @@
 												<fieldset id="payment_method_choice">
 												<label>
 													card number<br>
-													<input maxlength="16" placeholder="0000000000000000" name="CreditCardNumber" type="text">
+													<input maxlength="16" placeholder="" name="CreditCardNumber" type="text">
 												</label>
 												<div id="label_creditcard_expiration" class="label">
 													expiration date<br>
 													<label for="creditcard_exp_month">expiration date (month)</label>
 													<input maxlength="2" placeholder="mm" name="ExpMonth" id="creditcard_exp_month" type="text">
-													
+
 													<label for="creditcard_exp_year">expiration date (year)</label>
 													<input maxlength="2" placeholder="aa" name="ExpYear" id="creditcard_exp_year" type="text">
 												</div>
@@ -96,8 +104,8 @@
 									<fieldset class="sept credit">
 										<div class="inner">
 											<h3 class="legend">Billing address</h3>
-																			
-											
+
+
 											<div id="billing_adress" class="fieldset">
 												<div class="fields twofields">
 													<label>
@@ -119,13 +127,27 @@
 														<input name="PayerAddress[street2]" type="text">
 													</label>
 												</div>
-												<div class="fields threefields">
+												<div class="fields twofields">
 													<label>
-														city<br>
-														<input name="PayerAddress[city_name]" type="text">
+														Country<br>
+														<select id="country" name="PayerAddress[country]">
+															<option value="AB" selected="selected">Alberta</option>
+															<option value="BC">British Columbia</option>
+															<option value="MB">Manitoba</option>
+															<option value="NB">New Brunswick</option>
+															<option value="NL">Newfoundland and Labrador</option>
+															<option value="NT">Northwest Territories</option>
+															<option value="NS">Nova Scotia</option>
+															<option value="NU">Nunavut</option>
+															<option value="ON">Ontario</option>
+															<option value="PE">Prince Edward Island</option>
+															<option value="QC">Québec</option>
+															<option value="SK">Saskatchewan</option>
+															<option value="YT">Yukon</option>
+														</select>
 													</label>
 													<label>
-														Province<br>
+														State or Province<br>
 														<select id="state_or_province" name="PayerAddress[state_or_province]">
 															<option value="AB" selected="selected">Alberta</option>
 															<option value="BC">British Columbia</option>
@@ -133,31 +155,35 @@
 															<option value="NB">New Brunswick</option>
 															<option value="NL">Newfoundland and Labrador</option>
 															<option value="NT">Northwest Territories</option>
-															<option value="NS">Nova Scotia</option>											
+															<option value="NS">Nova Scotia</option>
 															<option value="NU">Nunavut</option>
 															<option value="ON">Ontario</option>
 															<option value="PE">Prince Edward Island</option>
-															<option value="QC">Québec</option>	
-															<option value="SK">Saskatchewan</option>										
+															<option value="QC">Québec</option>
+															<option value="SK">Saskatchewan</option>
 															<option value="YT">Yukon</option>
 														</select>
 													</label>
-													<div id="label_postalcode" class="label">
+												</div>
+												<div class="fields twofields">
+													<label>
+														city<br>
+														<input name="PayerAddress[city_name]" type="text">
+													</label>
+													<label>
 														Postal Code<br>
-														<label for="postalcode1"></label>
-														<input maxlength="3" name="PayerAddress[postal_code1]" id="postalcode1" type="text">
-														<label for="postalcode2">Postal Code (3 last characters)</label>
-														<input maxlength="3" name="PayerAddress[postal_code2]" id="postalcode2" type="text">
-													</div>
+														<label for="postalcode"></label>
+														<input maxlength="10" name="PayerAddress[postal_code]" id="postalcode" type="text">
+													</label>
 												</div>
 											</div>
 										</div>
 									</fieldset>
-									
+
 									<fieldset class="sept credit">
 										<div class="inner">
 											<h3 class="legend">Shipping address</h3>
-											<div class="fields twofields">								
+											<div class="fields twofields">
 												<label>	Same as Billing
 													<input name="PayerAddress[shipping_billing]" id="shipping_billing" type="checkbox">
 												</label>
@@ -173,10 +199,24 @@
 														<input name="PayerAddress[shipping_street2]" type="text">
 													</label>
 												</div>
-												<div class="fields threefields">
+												<div class="fields twofields">
 													<label>
-														city<br>
-														<input name="PayerAddress[shipping_city_name]" type="text">
+														Country<br>
+														<select id="shipping_country" name="PayerAddress[shipping_country]">
+															<option value="AB" selected="selected">Alberta</option>
+															<option value="BC">British Columbia</option>
+															<option value="MB">Manitoba</option>
+															<option value="NB">New Brunswick</option>
+															<option value="NL">Newfoundland and Labrador</option>
+															<option value="NT">Northwest Territories</option>
+															<option value="NS">Nova Scotia</option>
+															<option value="NU">Nunavut</option>
+															<option value="ON">Ontario</option>
+															<option value="PE">Prince Edward Island</option>
+															<option value="QC">Québec</option>
+															<option value="SK">Saskatchewan</option>
+															<option value="YT">Yukon</option>
+														</select>
 													</label>
 													<label>
 														Province<br>
@@ -187,38 +227,42 @@
 															<option value="NB">New Brunswick</option>
 															<option value="NL">Newfoundland and Labrador</option>
 															<option value="NT">Northwest Territories</option>
-															<option value="NS">Nova Scotia</option>											
+															<option value="NS">Nova Scotia</option>
 															<option value="NU">Nunavut</option>
 															<option value="ON">Ontario</option>
 															<option value="PE">Prince Edward Island</option>
-															<option value="QC">Québec</option>	
-															<option value="SK">Saskatchewan</option>										
+															<option value="QC">Québec</option>
+															<option value="SK">Saskatchewan</option>
 															<option value="YT">Yukon</option>
 														</select>
 													</label>
-													<div id="label_postalcode" class="label">
+												</div>
+												<div class="fields twofields">
+													<label>
+														city<br>
+														<input name="PayerAddress[shipping_city_name]" type="text">
+													</label>
+													<label>
 														Postal Code<br>
-														<label for="postalcode1"></label>
-														<input maxlength="3" name="PayerAddress[shipping_postal_code1]" id="postalcode1" type="text">
-														<label for="postalcode2">Postal Code (3 last characters)</label>
-														<input maxlength="3" name="PayerAddress[shipping_postal_code2]" id="postalcode2" type="text">
-													</div>
+														<label for="postalcode"></label>
+														<input maxlength="10" name="PayerAddress[shipping_postal_code]" id="postalcode" type="text">
+													</label>
 												</div>
 											</div>
 										</div>
 									</fieldset>
-									
+
 									<fieldset class="sept">
 										<div class="inner">
 											<h3 class="legend">billing contact</h3>
-											
+
 											<div class="fieldset">
 												<div class="fields twofields">
 													<label class="tip_tel">
 														phone number<br>
 														<span data-info="Pour confirmation d'achat"></span>
 														<input name="PayerAddress[phone]" type="tel">
-														
+
 													</label>
 													<label>
 														email<br>
@@ -228,8 +272,8 @@
 											</div>
 										</div>
 									</fieldset>
-									
-									
+
+
 									<footer>
 										<div class="buttons">
 											<div class="ff_fake_button">
@@ -240,10 +284,10 @@
 									</footer>
 								</form>
 							</section>
-						</div> 
+						</div>
 					</section>
-				</div>		
-			</div>	
+				</div>
+			</div>
 		</div>
 	</body>
 </html>
