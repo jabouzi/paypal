@@ -1,1 +1,5 @@
 https://github.com/withinboredom/PayPal-PHP
+http://www.pixeden.com/e-commerce-icons/payment-method-icons-set-vol-1
+http://en.wikipedia.org/wiki/Luhn_algorithm
+http://www.paypalobjects.com/en_US/vhelp/paypalmanager_help/credit_card_numbers.htm
+http://mrmagne.com/dummy-credit-card-numbers/

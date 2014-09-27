@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<states>
     <state_province>
         <name>Alabama</name>
         <abbreviation>AL</abbreviation>
@@ -18569,3 +18570,4 @@
         <abbreviation>ND</abbreviation>
         <country_id>1094</country_id>
     </state_province>
+</states>
