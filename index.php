@@ -78,7 +78,7 @@
 											<div class="fields twofields">
 												<div class="fields twofields">
 													<label>Price<br>
-														<input maxlength="6" placeholder="" name="Creditcard[price]" type="text" value="10.00"> $
+														<input maxlength="6" placeholder="" name="Creditcard[Price]" type="text" value="10.00"> $
 													</label>
 												</div>
 												<fieldset id="payment_method_choice">

@@ -25,6 +25,7 @@ $paypal_data = array (
       'email' => string '' (length=0)
   'Creditcard' => 
     array (size=5)
+      'Price' => string '10.00' (length=0)
       'CreditCardNumber' => string '' (length=0)
       'ExpMonth' => string '' (length=0)
       'ExpYear' => string '' (length=0)
