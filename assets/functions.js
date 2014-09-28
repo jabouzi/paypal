@@ -29,4 +29,9 @@ jQuery(document).ready(function() {
     });
 });
 
+function set_states()
+{
+	
+}
+
 /*****************************END DOCUMENT READY ******************************/
