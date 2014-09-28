@@ -1,36 +1,15 @@
 <?php
 
-// visa 4214022891893180  9/2019 
-// editionstgi XYZG45ASvMmBPwYA
-
-function get_configs($type = 'live')
+function get_coutries()
 {
-	$configuration['live']['paypal'] = array(
-			'environment' => 'live',
-			'APIUsername' => 'cla_api1.sajy.com',
-			'APIPassword' => '2F7VKX4UJTLSSTCX',
-			'APISignature' => 'ACArS-gGNkbPwGsoAWrQDy4FY1VhAYVA3pnIb-Y7OOcF6Xh4GEAs4dWY',
-			'APICertificate' => null
-	);
-	$configuration['sandbox']['paypal']	 = array(
-			'environment' => 'sandbox',
-			'APIUsername' => 'cla-facilitator_api1.sajy.com',
-			'APIPassword' => '1410979375',
-			'APISignature' => 'An5ns1Kso7MWUdW4ErQKJJJ4qi4-AXyjSzOSp58ksAMSKEjGJ..jvQ6r',
-			'APICertificate' => null
-	);
-	
-	return $configuration[$type];
+	$countries = file_get_contents('assets/countries.json');
+	return json_decode($countries);
 }
 
-function get_url($type = 'live')
+function get_configs($type = 'sandbox')
 {
-	$paypalUrl = array(
-		'live' => 'https://www.paypal.com/',
-		'sandbox' => 'https://www.sandbox.paypal.com/'
-	);
-	
-	return $paypalUrl[$type];
+	global $configuration;
+	return $configuration[$type];
 }
 
 function parseToPaypal($type)
@@ -79,7 +58,39 @@ function parseToPaypal($type)
     return $paypal;
 }
 
-function sendPaypalRequest($type)
+function sendCreditRequest()
+{
+    $errors = array();
+
+    $shipping_total = 0;
+    if ($_SESSION['shipping_address']['shipping_method'] == 'recommanded_parcel') $shipping_total = 13.8;
+    else if ($_SESSION['shipping_address']['shipping_method'] == 'regular_post') $shipping_total = 5.0;
+     
+    $paypal = parseToPaypal();
+    $paypal->CardOwner = $_POST['CardOwner'];
+    $paypal->CreditCardType = $_POST['CreditCardType'];
+    $paypal->CreditCardNumber = $_POST['CreditCardNumber'];
+    $paypal->ExpMonth = $_POST['ExpMonth'];
+    $paypal->ExpYear = $_POST['ExpYear'];
+    $paypal->CVV2 = $_POST['CVV2'];
+    $paypal->shippingTotal = (double)$shipping_total;
+    $paypal->amount = (double)get_order_sum() + (double)$shipping_total;
+    $paypal->description = 'Cartes cadeaux.';
+    $result = $paypal->sendDirectPaymentRequest(false);
+    if ($result) {
+        $_SESSION['lastCreditCardDigit'] = substr($paypal->CreditCardNumber, -4); // 4 derniers digits
+        update_order('lastCreditCardDigit', $_SESSION['lastCreditCardDigit']);
+        return $paypal->transactionID;
+    } else {
+        $errorsCodes = $paypal->getErrorsCodes();
+        update_order('paypal_error_codes', implode(', ', $errorsCodes));
+        $errors = getPaypalErrors($errorsCodes);
+    }
+    
+    return $errors;
+}
+
+function sendPaypalRequest()
 {
     global $data;
     $errors = array();
@@ -106,10 +117,10 @@ function sendPaypalRequest($type)
     $paypal->cancelURL = "https://editionstgi.dev.tgiprojects.com/cancel.php";
     $paypal->custom = $_SESSION['uid'];
     $paypal->shippingTotal = (double)$shipping;
-    $paypal->noShipping = $noShipping;
+    $paypal->noShipping = $configuration['noShipping'];
     $paypal->amount = (double)$amount;
-    $paypal->description = 'L\'éducation physique, une histoire de cœur et de passion';
-    $paypal->logoimg = 'https://editionstgi.dev.tgiprojects.com/wp-content/themes/default/img/template/logo_college-de-lassomption_paypal.png';
+    $paypal->description = $configuration['description'];
+    $paypal->logoimg = $configuration['logoimg'];
     
     if ($paypal->sendExpressCheckoutRequest(false)) {
         return $paypal->token;
@@ -151,7 +162,7 @@ function actionConfirmer($type)
 	{
 		$token = $result;
 		update_order('token', $token);
-		$paypalUrl = get_url().'webscr&cmd=_express-checkout&useraction=commit&token=' . $token;
+		$paypalUrl = $configuration['paypalUrl'].'webscr&cmd=_express-checkout&useraction=commit&token=' . $token;
 	}
 	
 	return $paypalUrl;

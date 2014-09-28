@@ -1,3 +1,5 @@
+<?php include('includes/config.php'); ?>
+<?php $countries = get_coutries();?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -16,6 +18,7 @@
 		<link rel="stylesheet" type="text/css" media="print" href="assets/print.css">
 		<script type="text/javascript" src="assets/jquery.min.js"></script>
 		<script type="text/javascript" src="assets/functions.js"></script>
+		<script type="text/javascript" src="assets/states.json"></script>
 	</head>
 	<body>
 		<div id="wrap">
@@ -76,15 +79,15 @@
 												<fieldset id="payment_method_choice">
 												<label>
 													card number<br>
-													<input maxlength="16" placeholder="" name="CreditCardNumber" type="text">
+													<input maxlength="16" placeholder="" name="Creditcard[CreditCardNumber]" type="text">
 												</label>
 												<div id="label_creditcard_expiration" class="label">
 													expiration date<br>
 													<label for="creditcard_exp_month">expiration date (month)</label>
-													<input maxlength="2" placeholder="mm" name="ExpMonth" id="creditcard_exp_month" type="text">
+													<input maxlength="2" placeholder="mm" name="Creditcard[ExpMonth]" id="creditcard_exp_month" type="text">
 
 													<label for="creditcard_exp_year">expiration date (year)</label>
-													<input maxlength="2" placeholder="aa" name="ExpYear" id="creditcard_exp_year" type="text">
+													<input maxlength="2" placeholder="aa" name="Creditcard[ExpYear]" id="creditcard_exp_year" type="text">
 												</div>
 												</fieldset>
 											</div>
@@ -92,11 +95,11 @@
 												<fieldset id="payment_method_choice">
 												<label id="security_code">
 													Security code<br>
-													<input maxlength="3" id="securitycode" name="CVV2" type="text">
+													<input maxlength="3" id="securitycode" name="Creditcard[CVV2]" type="text">
 												</label>
 												<label>
 													name on the card <br>
-													<input name="CardOwner" id="card_owner" type="text">
+													<input name="Creditcard[CardOwner]" id="card_owner" type="text">
 												</label>
 												</fieldset>
 											</div>
@@ -131,37 +134,14 @@
 													<label>
 														Country<br>
 														<select id="country" name="PayerAddress[country]">
-															<option value="AB" selected="selected">Alberta</option>
-															<option value="BC">British Columbia</option>
-															<option value="MB">Manitoba</option>
-															<option value="NB">New Brunswick</option>
-															<option value="NL">Newfoundland and Labrador</option>
-															<option value="NT">Northwest Territories</option>
-															<option value="NS">Nova Scotia</option>
-															<option value="NU">Nunavut</option>
-															<option value="ON">Ontario</option>
-															<option value="PE">Prince Edward Island</option>
-															<option value="QC">Québec</option>
-															<option value="SK">Saskatchewan</option>
-															<option value="YT">Yukon</option>
+															<?php foreach($countries as $country) : ?>
+																<option value="<?php echo $country[0]; ?>"><?php echo $country[1]; ?></option>
+															<?php endforeach; ?>
 														</select>
 													</label>
 													<label>
 														State or Province<br>
 														<select id="state_or_province" name="PayerAddress[state_or_province]">
-															<option value="AB" selected="selected">Alberta</option>
-															<option value="BC">British Columbia</option>
-															<option value="MB">Manitoba</option>
-															<option value="NB">New Brunswick</option>
-															<option value="NL">Newfoundland and Labrador</option>
-															<option value="NT">Northwest Territories</option>
-															<option value="NS">Nova Scotia</option>
-															<option value="NU">Nunavut</option>
-															<option value="ON">Ontario</option>
-															<option value="PE">Prince Edward Island</option>
-															<option value="QC">Québec</option>
-															<option value="SK">Saskatchewan</option>
-															<option value="YT">Yukon</option>
 														</select>
 													</label>
 												</div>
@@ -185,7 +165,7 @@
 											<h3 class="legend">Shipping address</h3>
 											<div class="fields twofields">
 												<label>	Same as Billing
-													<input name="PayerAddress[shipping_billing]" id="shipping_billing" type="checkbox">
+													<input name="PayerAddress[shipping]" id="shipping" type="checkbox" value="1">
 												</label>
 											</div>
 											<div id="shipping_adress" class="fieldset">
@@ -203,37 +183,14 @@
 													<label>
 														Country<br>
 														<select id="shipping_country" name="PayerAddress[shipping_country]">
-															<option value="AB" selected="selected">Alberta</option>
-															<option value="BC">British Columbia</option>
-															<option value="MB">Manitoba</option>
-															<option value="NB">New Brunswick</option>
-															<option value="NL">Newfoundland and Labrador</option>
-															<option value="NT">Northwest Territories</option>
-															<option value="NS">Nova Scotia</option>
-															<option value="NU">Nunavut</option>
-															<option value="ON">Ontario</option>
-															<option value="PE">Prince Edward Island</option>
-															<option value="QC">Québec</option>
-															<option value="SK">Saskatchewan</option>
-															<option value="YT">Yukon</option>
+															<?php foreach($countries as $country) : ?>
+																<option value="<?php echo $country[0]; ?>"><?php echo $country[1]; ?></option>
+															<?php endforeach; ?>
 														</select>
 													</label>
 													<label>
 														Province<br>
-														<select id="state_or_province" name="PayerAddress[shipping_state_or_province]">
-															<option value="AB" selected="selected">Alberta</option>
-															<option value="BC">British Columbia</option>
-															<option value="MB">Manitoba</option>
-															<option value="NB">New Brunswick</option>
-															<option value="NL">Newfoundland and Labrador</option>
-															<option value="NT">Northwest Territories</option>
-															<option value="NS">Nova Scotia</option>
-															<option value="NU">Nunavut</option>
-															<option value="ON">Ontario</option>
-															<option value="PE">Prince Edward Island</option>
-															<option value="QC">Québec</option>
-															<option value="SK">Saskatchewan</option>
-															<option value="YT">Yukon</option>
+														<select id="shipping_state_or_province" name="PayerAddress[shipping_state_or_province]">
 														</select>
 													</label>
 												</div>
