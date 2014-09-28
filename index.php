@@ -76,6 +76,11 @@
 									</fieldset>
 									<fieldset class="sept credit">
 											<div class="fields twofields">
+												<div class="fields twofields">
+													<label>Price<br>
+														<input maxlength="6" placeholder="" name="Creditcard[price]" type="text" value="10.00"> $
+													</label>
+												</div>
 												<fieldset id="payment_method_choice">
 												<label>
 													card number<br>
