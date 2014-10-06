@@ -64,6 +64,6 @@ function set_states(id1, id2)
 	$("#"+id2).empty();
 	var selected = states[$("#"+id1).val()];
 	$.each(selected, function(i, item) {
-		$("#"+id2).append("<option value='"+item[0]+"'>"+item[0]+"</option>");
+		$("#"+id2).append("<option value='"+item[2]+"'>"+item[0]+"</option>");
 	});
 }
