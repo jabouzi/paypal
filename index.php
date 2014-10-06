@@ -18,6 +18,7 @@
 		<link rel="stylesheet" type="text/css" media="print" href="assets/print.css">
 		<script type="text/javascript" src="assets/jquery.min.js"></script>
 		<script type="text/javascript" src="assets/functions.js"></script>
+		<script type="text/javascript" src="assets/vform.js"></script>
 		<script type="text/javascript" src="assets/states.json"></script>
 	</head>
 	<body>
@@ -28,7 +29,7 @@
 						<div class="section_inner fixed">
 							<h2 class="main">Paypal Payments</h2>
 							<section id="step3">
-								<form action="/process.php" method="POST">
+								<form id="paypal" action="/process.php" method="POST">
 								<p class="instructions">
 									please fill in the necessary information so we can complete your purchase.</p>
 
@@ -45,7 +46,7 @@
 																<img class="paypal" alt="PayPal" src="images/paypal.png">
 															</label>
 															<label class="paypal_wrapper"  style="margin-right: 10px;">
-																<input type="radio" value="MasterCard" id="cardtype2" name="PayerAddress[cardType]" class="cardType">
+																<input type="radio" value="MasterCard" id="cardtype2" name="PayerAddress[cardType]" class="cardType" checked>
 																<img class="paypal" alt="PayPal" src="images/mastercard.png">
 															</label>
 															<label class="paypal_wrapper"  style="margin-right: 10px;">
@@ -78,21 +79,28 @@
 											<div class="fields twofields">
 												<div class="fields twofields">
 													<label>Price<br>
-														<input maxlength="6" placeholder="" name="Creditcard[Price]" type="text" value="10.00"> $
+														<input maxlength="6" placeholder="" name="Creditcard[Price]" type="text" value="10.00" id="price" class="priceonly" data-validate="required"> $
+														<label id="help-price" style="display:none" class="required-error">required</label>
 													</label>
 												</div>
 												<fieldset id="payment_method_choice">
 												<label>
 													card number<br>
-													<input maxlength="16" placeholder="" name="Creditcard[CreditCardNumber]" type="text">
+													<input maxlength="16" placeholder="" name="Creditcard[CreditCardNumber]" type="text" id="creditcardnumber" class="numberonly" data-validate="required">
+													<label id="help-creditcardnumber" style="display:none" class="required-error">required</label>
 												</label>
 												<div id="label_creditcard_expiration" class="label">
 													expiration date<br>
 													<label for="creditcard_exp_month">expiration date (month)</label>
-													<input maxlength="2" placeholder="mm" name="Creditcard[ExpMonth]" id="creditcard_exp_month" type="text">
+													<input maxlength="2" placeholder="mm" name="Creditcard[ExpMonth]" id="creditcard_exp_month" type="text" class="numberonly" data-validate="required">
+													
 
 													<label for="creditcard_exp_year">expiration date (year)</label>
-													<input maxlength="2" placeholder="aa" name="Creditcard[ExpYear]" id="creditcard_exp_year" type="text">
+													<input maxlength="2" placeholder="aa" name="Creditcard[ExpYear]" id="creditcard_exp_year" type="text" class="numberonly" data-validate="required">
+													
+													<label id="help-creditcard_exp_year" style="display:none" class="required-error">required</label>
+													<label id="help-creditcard_exp_month" style="display:none" class="required-error">required</label>
+
 												</div>
 												</fieldset>
 											</div>
@@ -100,11 +108,13 @@
 												<fieldset id="payment_method_choice">
 												<label id="security_code">
 													Security code<br>
-													<input maxlength="3" id="securitycode" name="Creditcard[CVV2]" type="text">
+													<input maxlength="3" name="Creditcard[CVV2]" type="text" id="cvv2" data-validate="required" class="numberonly">
+													<label id="help-cvv2" style="display:none" class="required-error">required</label>
 												</label>
 												<label>
 													name on the card <br>
-													<input name="Creditcard[CardOwner]" id="card_owner" type="text">
+													<input name="Creditcard[CardOwner]" type="text" id="cardowner" data-validate="required">
+													<label id="help-cardowner" style="display:none" class="required-error">required</label>
 												</label>
 												</fieldset>
 											</div>
@@ -118,21 +128,25 @@
 												<div class="fields twofields">
 													<label>
 														FIRST NAME<br>
-														<input name="PayerAddress[first_name]" type="text">
+														<input name="PayerAddress[first_name]" type="text" id="first_name" data-validate="required">
+														<label id="help-first_name" style="display:none" class="required-error">required</label>
 													</label>
 													<label>
 														NAME<br>
-														<input name="PayerAddress[last_name]" type="text">
+														<input name="PayerAddress[last_name]" type="text" id="last_name" data-validate="required">
+														<label id="help-last_name" style="display:none" class="required-error">required</label>
 													</label>
 												</div>
 												<div class="fields twofields">
 													<label>
 														ADDRESS<br>
-														<input name="PayerAddress[street1]" type="text">
+														<input name="PayerAddress[street1]" type="text" id="street1" data-validate="required">
+														<label id="help-street1" style="display:none" class="required-error">required</label>
 													</label>
 													<label>
 														ADDRESS 2<br>
-														<input name="PayerAddress[street2]" type="text">
+														<input name="PayerAddress[street2]" type="text" id="street2" data-validate="required">
+														<label id="help-street2" style="display:none" class="required-error">required</label>
 													</label>
 												</div>
 												<div class="fields twofields">
@@ -153,12 +167,14 @@
 												<div class="fields twofields">
 													<label>
 														city<br>
-														<input name="PayerAddress[city_name]" type="text">
+														<input name="PayerAddress[city_name]" type="text" id="city_name" data-validate="required">
+														<label id="help-city_name" style="display:none" class="required-error">required</label>
 													</label>
 													<label>
 														Postal Code<br>
 														<label for="postalcode"></label>
-														<input maxlength="10" name="PayerAddress[postal_code]" id="postalcode" type="text">
+														<input maxlength="10" name="PayerAddress[postal_code]" type="text" id="postal_code" data-validate="required">
+														<label id="help-postal_code" style="display:none" class="required-error">required</label>
 													</label>
 												</div>
 											</div>
@@ -177,11 +193,13 @@
 												<div class="fields twofields">
 													<label>
 														ADDRESS<br>
-														<input name="PayerAddress[shipping_street1]" type="text">
+														<input name="PayerAddress[shipping_street1]" type="text" id="shipping_street1" data-validate="required">
+														<label id="help-shipping_street1" style="display:none" class="required-error">required</label>
 													</label>
 													<label>
 														ADDRESS 2<br>
-														<input name="PayerAddress[shipping_street2]" type="text">
+														<input name="PayerAddress[shipping_street2]" type="text" id="shipping_street2" data-validate="required">
+														<label id="help-shipping_street2" style="display:none" class="required-error">required</label>
 													</label>
 												</div>
 												<div class="fields twofields">
@@ -194,7 +212,7 @@
 														</select>
 													</label>
 													<label>
-														Province<br>
+														State or Province<br>
 														<select id="shipping_state_or_province" name="PayerAddress[shipping_state_or_province]">
 														</select>
 													</label>
@@ -202,12 +220,14 @@
 												<div class="fields twofields">
 													<label>
 														city<br>
-														<input name="PayerAddress[shipping_city_name]" type="text">
+														<input name="PayerAddress[shipping_city_name]" type="text" id="shipping_city_name" data-validate="required">
+														<label id="help-shipping_city_name" style="display:none" class="required-error">required</label>
 													</label>
 													<label>
 														Postal Code<br>
 														<label for="postalcode"></label>
-														<input maxlength="10" name="PayerAddress[shipping_postal_code]" id="postalcode" type="text">
+														<input maxlength="10" name="PayerAddress[shipping_postal_code]" id="shipping_postal_code" type="text" data-validate="required">
+														<label id="help-shipping_postal_code" style="display:none" class="required-error">required</label>
 													</label>
 												</div>
 											</div>
@@ -223,12 +243,14 @@
 													<label class="tip_tel">
 														phone number<br>
 														<span data-info="Pour confirmation d'achat"></span>
-														<input name="PayerAddress[phone]" type="tel">
+														<input name="PayerAddress[phone]" type="tel" id="phone" data-validate="required">
+														<label id="help-phone" style="display:none" class="required-error">required</label>
 
 													</label>
 													<label>
 														email<br>
-														<input name="PayerAddress[email]" type="text">
+														<input name="PayerAddress[email]" type="text" id="email" data-validate="required" data-type="email">
+														<label id="help-email" style="display:none" class="required-error">required</label>
 													</label>
 												</div>
 											</div>

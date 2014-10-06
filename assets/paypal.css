@@ -2542,6 +2542,16 @@ height: 95px;
 /* #sub_menu >ul>li.hello>a{color:green}
 #sub_menu >ul>li>ul>li.hello>a{color:pink} */
 
+.has-error {border-color: #a94442;}
+.required-error {
+clear: left;
+color: #D41414;
+display: block;
+float: none !important;
+font-size: 11px;
+line-height: 24px;
+text-indent: 0 !important;}
+
 
 
 
