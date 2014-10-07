@@ -6,7 +6,7 @@ include('includes/config.php');
 $billing_id = save_billing_address();
 if (isset($_POST['shipping'])) $shipping_id = $billing_id;
 else $shipping_id = save_shipping_address();
-//var_dump($shipping_id, $billing_id);
+var_dump($shipping_id, $billing_id);
 //save_order($_POST);
 //actionConfirmer($_GET['type']);
 

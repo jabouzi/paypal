@@ -527,7 +527,7 @@ function save_shipping_address()
 	)";
 	
     $db->query($query, $args);      
-    return mysql_insert_id();
+    return $db->lastInsertId();
 }
 
 function save_billing_address()
@@ -535,7 +535,6 @@ function save_billing_address()
 	global $db;
 	$data = $_POST['PayerAddress'];
 	$countries = get_coutries();
-	var_dump($data);
 	$args = array(
 		':first_name' => $data['first_name'],
 		':last_name' => $data['last_name'],
@@ -564,9 +563,9 @@ function save_billing_address()
 		:shipping,
 		''
 	)";
-	var_dump($args);
+
     $db->query($query, $args);      
-    return mysql_insert_id();
+    return $db->lastInsertId();
 }
 
 function update_order($champ, $value, $uid = 0)
