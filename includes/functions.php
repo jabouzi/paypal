@@ -3,7 +3,7 @@
 function get_coutries()
 {
 	$countries = file_get_contents('assets/countries.json');
-	return json_decode($countries);
+	return json_decode($countries, true);
 }
 
 function get_states($country)
@@ -497,22 +497,21 @@ function save_shipping_address()
 	global $db;
 	$data = $_POST['PayerAddress'];
 	$countries = (array)get_coutries();
-	$states = (array)get_states($data['shipping_country']);
 	$args = array(
-		':first_name' => $data['shipping_first_name'],
-		':last_name' => $data['shipping_last_name'],
+		':first_name' => $data['first_name'],
+		':last_name' => $data['last_name'],
 		':street1' => $data['shipping_street1'],
 		':street2' => $data['shipping_street2'],
 		':city_name' => $data['shipping_city_name'],
-		':state_or_province' => $states[$data['shipping_state_or_province']][0],
+		':state_or_province' => $data['shipping_state_or_province'],
 		':country' => $countries[$data['shipping_country']][1],
 		':postal_code' => $data['shipping_postal_code'],
-		':phone' => $data['shipping_phone'],
-		':email' => $data['shipping_email'],
+		':phone' => $data['phone'],
+		':email' => $data['email'],
 		':shipping' => isset($data['shipping'])
 	);
 
-    $query = "INSERT INTO address VALUES (''
+    $query = "INSERT INTO address VALUES ('',
 		:first_name,
 		:last_name,
 		:street1,
@@ -535,17 +534,15 @@ function save_billing_address()
 {
 	global $db;
 	$data = $_POST['PayerAddress'];
-	$countries = (array)get_coutries();
-	$states = (array)get_states($data['country']);
-	var_dump($data['country'], $data['state_or_province']);
-	var_dump($countries, $states);
+	$countries = get_coutries();
+	var_dump($data);
 	$args = array(
 		':first_name' => $data['first_name'],
 		':last_name' => $data['last_name'],
 		':street1' => $data['street1'],
 		':street2' => $data['street2'],
 		':city_name' => $data['city_name'],
-		':state_or_province' => $states[$data['state_or_province']][0],
+		':state_or_province' => $data['state_or_province'],
 		':country' => $countries[$data['country']][1],
 		':postal_code' => $data['postal_code'],
 		':phone' => $data['phone'],
@@ -553,7 +550,7 @@ function save_billing_address()
 		':shipping' => isset($data['shipping'])
 	);
 
-    $query = "INSERT INTO address VALUES (''
+    $query = "INSERT INTO address VALUES ('',
 		:first_name,
 		:last_name,
 		:street1,
