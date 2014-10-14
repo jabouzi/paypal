@@ -42,31 +42,31 @@
 														<dt>PAYMENT</dt>
 														<dd id="label_cardtype" class="clearfix">
 															<label class="paypal_wrapper" style="margin-right: 10px;">
-																<input type="radio" value="paypal" id="cardtype1" name="PayerAddress[cardType]" class="cardType">
+																<input type="radio" value="paypal" id="cardtype1" name="Creditcard[cardType]" class="cardType">
 																<img class="paypal" alt="PayPal" src="images/paypal.png">
 															</label>
 															<label class="paypal_wrapper"  style="margin-right: 10px;">
-																<input type="radio" value="MasterCard" id="cardtype2" name="PayerAddress[cardType]" class="cardType" checked>
+																<input type="radio" value="mastercard" id="cardtype2" name="Creditcard[cardType]" class="cardType" checked>
 																<img class="paypal" alt="PayPal" src="images/mastercard.png">
 															</label>
 															<label class="paypal_wrapper"  style="margin-right: 10px;">
-																<input type="radio" value="Visa" id="cardtype3" name="PayerAddress[cardType]" class="cardType">
+																<input type="radio" value="visa" id="cardtype3" name="Creditcard[cardType]" class="cardType">
 																<img class="paypal" alt="PayPal" src="images/visa.png">
 															</label>
 															<label class="paypal_wrapper"  style="margin-right: 10px;">
-																<input type="radio" value="AmericanExpress" id="cardtype4" name="PayerAddress[cardType]" class="cardType">
+																<input type="radio" value="americanexpress" id="cardtype4" name="Creditcard[cardType]" class="cardType">
 																<img class="paypal" alt="PayPal" src="images/americanexpress.png">
 															</label>
 															<label class="paypal_wrapper"  style="margin-right: 10px;">
-																<input type="radio" value="Discover" id="cardtype5" name="PayerAddress[cardType]" class="cardType">
+																<input type="radio" value="discover" id="cardtype5" name="Creditcard[cardType]" class="cardType">
 																<img class="paypal" alt="PayPal" src="images/discover.png">
 															</label>
 															<label class="paypal_wrapper"  style="margin-right: 10px;">
-																<input type="radio" value="DinersClub" id="cardtype6" name="PayerAddress[cardType]" class="cardType">
+																<input type="radio" value="dinersclub" id="cardtype6" name="Creditcard[cardType]" class="cardType">
 																<img class="paypal" alt="PayPal" src="images/dinersclub.png">
 															</label>
 															<label class="paypal_wrapper"  style="margin-right: 10px;">
-																<input type="radio" value="Solo" id="cardtype7" name="PayerAddress[cardType]" class="cardType">
+																<input type="radio" value="solo" id="cardtype7" name="Creditcard[cardType]" class="cardType">
 																<img class="paypal" alt="PayPal" src="images/solo.png">
 															</label>
 														</dd>
@@ -86,7 +86,7 @@
 												<fieldset id="payment_method_choice">
 												<label>
 													card number<br>
-													<input maxlength="16" placeholder="" name="Creditcard[CreditCardNumber]" type="text" id="creditcardnumber" class="numberonly" data-validate="required">
+													<input maxlength="16" placeholder="" name="Creditcard[CardNumber]" type="text" id="creditcardnumber" class="numberonly" data-validate="required">
 													<label id="help-creditcardnumber" style="display:none" class="required-error">required</label>
 												</label>
 												<div id="label_creditcard_expiration" class="label">
@@ -145,7 +145,7 @@
 													</label>
 													<label>
 														ADDRESS 2<br>
-														<input name="PayerAddress[street2]" type="text" id="street2" data-validate="required">
+														<input name="PayerAddress[street2]" type="text" id="street2" >
 														<label id="help-street2" style="display:none" class="required-error">required</label>
 													</label>
 												</div>
@@ -193,19 +193,19 @@
 												<div class="fields twofields">
 													<label>
 														ADDRESS<br>
-														<input name="PayerAddress[shipping_street1]" type="text" id="shipping_street1" data-validate="required">
-														<label id="help-shipping_street1" style="display:none" class="required-error">required</label>
+														<input name="ShippingAddress[street1]" type="text" id="shipping_street1" data-validate="required">
+														<label id="help-street1" style="display:none" class="required-error">required</label>
 													</label>
 													<label>
 														ADDRESS 2<br>
-														<input name="PayerAddress[shipping_street2]" type="text" id="shipping_street2" data-validate="required">
-														<label id="help-shipping_street2" style="display:none" class="required-error">required</label>
+														<input name="ShippingAddress[street2]" type="text" id="shipping_street2" data-validate="required">
+														<label id="help-street2" style="display:none" class="required-error">required</label>
 													</label>
 												</div>
 												<div class="fields twofields">
 													<label>
 														Country<br>
-														<select id="shipping_country" name="PayerAddress[shipping_country]">
+														<select id="shipping_country" name="ShippingAddress[country]">
 															<?php foreach($countries as $country) : ?>
 																<option value="<?php echo $country[0]; ?>"><?php echo $country[1]; ?></option>
 															<?php endforeach; ?>
@@ -213,21 +213,21 @@
 													</label>
 													<label>
 														State or Province<br>
-														<select id="shipping_state_or_province" name="PayerAddress[shipping_state_or_province]">
+														<select id="shipping_state_or_province" name="ShippingAddress[shipping_state_or_province]">
 														</select>
 													</label>
 												</div>
 												<div class="fields twofields">
 													<label>
 														city<br>
-														<input name="PayerAddress[shipping_city_name]" type="text" id="shipping_city_name" data-validate="required">
-														<label id="help-shipping_city_name" style="display:none" class="required-error">required</label>
+														<input name="ShippingAddress[city_name]" type="text" id="shipping_city_name" data-validate="required">
+														<label id="help-city_name" style="display:none" class="required-error">required</label>
 													</label>
 													<label>
 														Postal Code<br>
 														<label for="postalcode"></label>
-														<input maxlength="10" name="PayerAddress[shipping_postal_code]" id="shipping_postal_code" type="text" data-validate="required">
-														<label id="help-shipping_postal_code" style="display:none" class="required-error">required</label>
+														<input maxlength="10" name="ShippingAddress[postal_code]" id="shipping_postal_code" type="text" data-validate="required">
+														<label id="help-postal_code" style="display:none" class="required-error">required</label>
 													</label>
 												</div>
 											</div>

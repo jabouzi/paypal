@@ -17,17 +17,17 @@ $db->query("SET NAMES 'utf8'",'');
 
 $configuration['live']['paypal'] = array(
 	'environment' => 'live',
-	'APIUsername' => 'cla_api1.sajy.com',
-	'APIPassword' => '2F7VKX4UJTLSSTCX',
-	'APISignature' => 'ACArS-gGNkbPwGsoAWrQDy4FY1VhAYVA3pnIb-Y7OOcF6Xh4GEAs4dWY',
+	'APIUsername' => '',
+	'APIPassword' => '',
+	'APISignature' => '',
 	'APICertificate' => null,
 	'paypalUrl' => 'https://www.paypal.com/',
 );
 $configuration['sandbox']['paypal']	 = array(
 	'environment' => 'sandbox',
-	'APIUsername' => 'cla-facilitator_api1.sajy.com',
-	'APIPassword' => '1410979375',
-	'APISignature' => 'An5ns1Kso7MWUdW4ErQKJJJ4qi4-AXyjSzOSp58ksAMSKEjGJ..jvQ6r',
+	'APIUsername' => 'jabouzi_api1.gmail.com',
+	'APIPassword' => '4X6MBWTCUJSVL7JS',
+	'APISignature' => 'AFcWxV21C7fd0v3bYYYRCpSSRl31As0cm3KQl7X48szW.6PrWXS8NxCU',
 	'APICertificate' => null,
 	'paypalUrl' => 'https://www.sandbox.paypal.com/',
 );

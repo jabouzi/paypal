@@ -20,13 +20,15 @@ function get_configs($type = 'sandbox')
 
 function parseToPaypal()
 {
-    global $configuration;
+    $configuration = get_configs();
     require 'PaypalOrder.php';
     
-    if (isset($_POST['shipping'])) $payerAddress = $shippingAddress;
+    $payerAddress = $_POST['PayerAddress'];
+    if (isset($_POST['PayerAddress']['shipping'])) $payerAddress = $shippingAddress;
+    else $shippingAddress = $_POST['ShippingAddress'];
 
-    $paypal = new SimplePaypalOrder($configuration);
-    $obtions = array(
+    $paypal = new PaypalOrder($configuration);
+    $options = array(
         'PayerAddress' => array(
             'Street1' => $payerAddress['street1'],
             'Street2' => $payerAddress['street2'],
@@ -46,17 +48,15 @@ function parseToPaypal()
         'Firstname' => $payerAddress['first_name'],
         'Lastname' => $payerAddress['last_name'],
     );
-    if ($_SESSION['same_as_shipping_address']) {
-        $obtions['PayerAddress'] = $obtions['ShippingAddress'];
-        $obtions['Firstname'] = $shippingAddress['first_name'];
-        $obtions['Lastname'] = $shippingAddress['last_name'];
-    }
-    $paypal->setOptions($obtions);
+
+	$options['Firstname'] = $shippingAddress['first_name'];
+	$options['Lastname'] = $shippingAddress['last_name'];
+
+    $paypal->setOptions($options);
     
-    $number = 1;
-    foreach ($_SESSION['cart'] as $amount => $quanity) {
-        $paypal->addItem('giftcard_'.$amount, $amount, $quanity, 'Cartes cadeaux.', $number++, 0);
-    }
+    $amount = $_POST['Creditcard']['Price'];
+    $paypal->addItem('testproduct_'.$amount, $amount, 1, 'Test Product.', 1, 0);
+    
     return $paypal;
 }
 
@@ -64,26 +64,24 @@ function sendCreditRequest()
 {
     $errors = array();
 
-    $shipping_total = 0;
-    if ($_SESSION['shipping_address']['shipping_method'] == 'recommanded_parcel') $shipping_total = 13.8;
-    else if ($_SESSION['shipping_address']['shipping_method'] == 'regular_post') $shipping_total = 5.0;
+    $shipping_total = 5.0;
      
     $paypal = parseToPaypal();
-    $paypal->CardOwner = $_POST['CardOwner'];
-    $paypal->CreditCardType = $_POST['CreditCardType'];
-    $paypal->CreditCardNumber = $_POST['CreditCardNumber'];
-    $paypal->ExpMonth = $_POST['ExpMonth'];
-    $paypal->ExpYear = $_POST['ExpYear'];
-    $paypal->CVV2 = $_POST['CVV2'];
+    $paypal->CardOwner = $_POST['Creditcard']['CardOwner'];
+    $paypal->CreditCardType = $_POST['Creditcard']['CardType'];
+    $paypal->CreditCardNumber = $_POST['Creditcard']['CardNumber'];
+    $paypal->ExpMonth = $_POST['Creditcard']['ExpMonth'];
+    $paypal->ExpYear = $_POST['Creditcard']['ExpYear'];
+    $paypal->CVV2 = $_POST['Creditcard']['CVV2'];
     $paypal->shippingTotal = (double)$shipping_total;
-    $paypal->amount = (double)get_order_sum() + (double)$shipping_total;
-    $paypal->description = 'Cartes cadeaux.';
+    $paypal->amount =  $_POST['Creditcard']['Price'] + (double)$shipping_total;
+    $paypal->description = 'Test Product';
     $result = $paypal->sendDirectPaymentRequest(false);
     if ($result) {
-        $_SESSION['lastCreditCardDigit'] = substr($paypal->CreditCardNumber, -4); // 4 derniers digits
-        update_order('lastCreditCardDigit', $_SESSION['lastCreditCardDigit']);
+        update_order('lastCreditCardDigit', substr($paypal->CreditCardNumber, -4));
         return $paypal->transactionID;
     } else {
+		var_dump($paypal);
         $errorsCodes = $paypal->getErrorsCodes();
         update_order('paypal_error_codes', implode(', ', $errorsCodes));
         $errors = getPaypalErrors($errorsCodes);
@@ -96,9 +94,7 @@ function sendPaypalRequest()
 {
     global $data;
     $errors = array();
-    $shipping_total = 0;
-    if ($_SESSION['shipping_address']['shipping_method'] == 'recommanded_parcel') $shipping_total = 13.8;
-    else if ($_SESSION['shipping_address']['shipping_method'] == 'regular_post') $shipping_total = 5.0;
+    $shipping_total = 5.0;
     
     $paypal = parseToPaypal();
     $paypal->returnURL = rewrite_url(520);
@@ -139,9 +135,24 @@ function actionConfirmer()
     global $data;
     $errors = array();
 
-    if ($_SESSION['shipping_method']['cardType'] == 'MasterCard' ||
-        $_SESSION['shipping_method']['cardType'] == 'Visa') {
+    if ($_SESSION['shipping_method']['cardType'] == 'paypal') {
         
+        $result = sendPaypalRequest();
+
+        if (is_array($result)) {
+            $errors[] = $data['transaction_not_processed'];
+        } else 
+        {
+            $token = $result;
+            update_order('token', $token);
+            clean_order();
+            $paypalUrl = 'https://www.paypal.com/webscr&cmd=_express-checkout&useraction=commit&token=' . $token;
+            header('Location: '.$paypalUrl);
+            exit();
+        }
+    } 
+    else 
+    {
         $guid = $_SESSION['uid'];
         
         if (!isset($_SESSION['orderWaiting']) && get_order_count() > 0) {
@@ -160,24 +171,6 @@ function actionConfirmer()
             }
         } else {
 			$errors[] = $data['transaction_treated'];
-        }
-    } 
-    else 
-    {
-        $result = sendPaypalRequest();
-        //echo '<pre>';
-        //print_r($result);
-        //echo '<pre>';
-        if (is_array($result)) {
-            $errors[] = $data['transaction_not_processed'];
-        } else 
-        {
-            $token = $result;
-            update_order('token', $token);
-            clean_order();
-            $paypalUrl = 'https://www.paypal.com/webscr&cmd=_express-checkout&useraction=commit&token=' . $token;
-            header('Location: '.$paypalUrl);
-            exit();
         }
     }
     
@@ -495,23 +488,35 @@ function generate_guid()
 function save_shipping_address()
 {
 	global $db;
-	$data = $_POST['PayerAddress'];
+	$data = $_POST['ShippingAddress'];
 	$countries = (array)get_coutries();
 	$args = array(
-		':first_name' => $data['first_name'],
-		':last_name' => $data['last_name'],
-		':street1' => $data['shipping_street1'],
-		':street2' => $data['shipping_street2'],
-		':city_name' => $data['shipping_city_name'],
-		':state_or_province' => $data['shipping_state_or_province'],
-		':country' => $countries[$data['shipping_country']][1],
-		':postal_code' => $data['shipping_postal_code'],
-		':phone' => $data['phone'],
-		':email' => $data['email'],
-		':shipping' => isset($data['shipping'])
+		':first_name' => '',
+		':last_name' => '',
+		':street1' => $data['street1'],
+		':street2' => $data['street2'],
+		':city_name' => $data['city_name'],
+		':state_or_province' => $data['state_or_province'],
+		':country' => $countries[$data['country']][1],
+		':postal_code' => $data['postal_code'],
+		':phone' => '',
+		':email' => '',
+		':shipping' => ''
 	);
 
-    $query = "INSERT INTO address VALUES ('',
+    $query = "INSERT INTO address (
+			first_name,
+			last_name,
+			street1,
+			street2,
+			city_name,
+			state_or_province,
+			country,
+			postal_code,
+			phone,
+			email,
+			shipping
+		) VALUES (
 		:first_name,
 		:last_name,
 		:street1,
@@ -522,8 +527,7 @@ function save_shipping_address()
 		:postal_code,
 		:phone,
 		:email,
-		:shipping,
-		''
+		:shipping
 	)";
 	
     $db->query($query, $args);      
@@ -549,72 +553,109 @@ function save_billing_address()
 		':shipping' => isset($data['shipping'])
 	);
 
-    $query = "INSERT INTO address VALUES ('',
-		:first_name,
-		:last_name,
-		:street1,
-		:street2,
-		:city_name,
-		:state_or_province,
-		:country,
-		:postal_code,
-		:phone,
-		:email,
-		:shipping,
-		''
-	)";
+    $query = "INSERT INTO address (
+			first_name,
+			last_name,
+			street1,
+			street2,
+			city_name,
+			state_or_province,
+			country,
+			postal_code,
+			phone,
+			email,
+			shipping
+		) VALUES (
+			:first_name,
+			:last_name,
+			:street1,
+			:street2,
+			:city_name,
+			:state_or_province,
+			:country,
+			:postal_code,
+			:phone,
+			:email,
+			:shipping
+		)";
 
     $db->query($query, $args);      
     return $db->lastInsertId();
 }
 
-function update_order($champ, $value, $uid = 0)
+function save_order($payerAddressId, $shippingAddressId, $cardType, $price)
 {
-    $guid = $uid;
-    if (!$uid) $guid = mysql_real_escape_string($_SESSION['uid']);
-    $champ = mysql_real_escape_string($champ);
-    $value = mysql_real_escape_string($value);
-    $query = "UPDATE t_order SET {$champ} = '{$value}' WHERE guid = '{$guid}'";
-    mysql_query($query);
+	global $db;
+	$_SESSION['uid'] = generate_guid();
+	$args = array(
+		':uid' => $_SESSION['uid'],
+		':transaction_id' => 0,
+		':billing_id' => $payerAddressId,
+		':shipping_id' => $shippingAddressId,
+		':token' => '0',
+		':order_total' => ($price + 5.0),
+		':order_description' => '',
+		':status' => '',
+		':paypal_error_codes' => '',
+		':cardtype' => $cardType,
+		':lastCreditCardDigit' => ''
+	);
+
+	$query = "INSERT INTO orders (
+			uid,
+			transaction_id,
+			billing_id,
+			shipping_id,
+			token,
+			order_total,
+			order_description,
+			status,
+			paypal_error_codes,
+			cardtype,
+			lastCreditCardDigit
+		) VALUES (
+			:uid,
+			:transaction_id,
+			:billing_id,
+			:shipping_id,
+			:token,
+			:order_total,
+			:order_description,
+			:status,
+			:paypal_error_codes,
+			:cardtype,
+			:lastCreditCardDigit
+		)";
+
+    $db->query($query, $args);   
+}
+
+function update_order($champ, $value)
+{
+	global $db;
+    $args = array(
+		':uid' => $_SESSION['uid'],
+		':'.$champ => $value
+    );
+
+    $query = "UPDATE orders SET {$champ} = :{$champ} WHERE uid = :uid";
+    $db->query($query, $args);
 }
 
 function get_order_value($champ)
 {
-    $guid = mysql_real_escape_string($_SESSION['uid']);
-    $champ = mysql_real_escape_string($champ);
-    $query = "SELECT {$champ} FROM t_order WHERE guid = '{$guid}'";
-    $res = mysql_query($query);
-    $order_data = mysql_fetch_assoc($res);
-    return $order_data[$champ];
-}
-
-function save_items()
-{
-    foreach($_SESSION['cart'] as $key => $item)
-    {
-        $query = "INSERT INTO t_order_item VALUE ('',
-            '".mysql_real_escape_string($_SESSION['uid'])."',
-            '".mysql_real_escape_string('giftcard_'.$key)."',
-            '".mysql_real_escape_string($key)."',
-            '0',
-            '',
-            '".mysql_real_escape_string($item)."',
-            '".date('Y-m-d H:i:s')."',
-            '".date('Y-m-d H:i:s')."')";
-        mysql_query($query);  
-    }
+    $args = array(
+		':uid' => $_SESSION['uid'],
+    );
+    $query = "SELECT {$champ} FROM orders WHERE uid = :uid";
+    $res = $db->query($query, $args);
+    return $res[0][$champ];
 }
 
 function clean_order()
 {
-    unset($_SESSION['cart']);
-    unset($_SESSION['shipping_method']);
-    unset($_SESSION['shipping_address']);
     unset($_SESSION['uid']);
-    unset($_SESSION['same_as_shipping_address']);
-    unset($_SESSION['lastCreditCardDigit']);
     unset($_SESSION['token']);
-    unset($_SESSION['orderWaiting']);
 }
 
 function get_user_ip()
