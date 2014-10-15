@@ -25,10 +25,9 @@
 							<h2 class="main">Paypal Payments</h2>
 							<section id="step3">
 								<p class="instructions">
-									please fill in the necessary information so we can complete your purchase.</p>s
+									please fill in the necessary information so we can complete your purchase.</p>
 
 									<footer>
-										<p class="notice_click_once"></p>
 									</footer>
 								</form>
 							</section>
