@@ -7,10 +7,20 @@ include_once('functions.php');
 if (!isset($_SESSION['uid'])) $_SESSION['uid'] = generate_guid();
 
 $db = Database::getInstance();
-$db->setHost('localhost');
-$db->setUsername('root');
-$db->setPassword('7024043');
-$db->setDatabase('paypal');
+if (strstr($_SERVER['HTTP_HOST'], 'editions-tgi.com'))
+{
+	$db->setHost('localhost');
+	$db->setUsername('root');
+	$db->setPassword('7024043');
+	$db->setDatabase('paypal');
+}
+else
+{
+	$db->setHost('localhost');
+	$db->setUsername('jabouzic_db');
+	$db->setPassword('7024043');
+	$db->setDatabase('jabouzic_paypal');
+}
 $db->setPort();
 $db->connect(); 
 $db->query("SET NAMES 'utf8'",'');
