@@ -1,6 +1,9 @@
 <?php
 session_start();
 
+ini_set('include_path',ini_get('include_path').':../includes:');
+var_dump($_SERVER['DOCUMENT_ROOT']);
+
 include_once('db.php');
 include_once('functions.php');
 
