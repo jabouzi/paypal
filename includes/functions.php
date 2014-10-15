@@ -101,13 +101,13 @@ function sendPaypalRequest()
     $paypal->cancelURL = "http://skanderjabouzi.com/app/paypal/cancel.php";
     $paypal->custom = $_SESSION['uid'];
     $paypal->shippingTotal = (double)$shipping_total;
-    $paypal->amount = (double)get_order_sum() + (double)$shipping_total;
+    $paypal->amount = $_SESSION['Creditcard']['Price'] + (double)$shipping_total;
     $paypal->description = 'Test Product';
     
     if ($paypal->sendExpressCheckoutRequest(false)) {
         return $paypal->token;
     } else {
-        $errors[] = $data['error_transaction'];
+        $errors[] = 'Transaction Error';
         return $paypal->getErrors();
     }
     return $errors;
@@ -124,26 +124,24 @@ function getPaypalErrors($errorsCodes)
     }
     
     if (count($errors) == 0) {
-        $errors[] = $data['transaction_failed'];
+        $errors[] = 'Transaction Failed';
     }
     
     return $errors;
 }
 
 function actionConfirm()
-{
-    global $data;
-    
+{    
     $configuration = get_configs();
     $errors = array();
 
-    if ($_SESSION['shipping_method']['cardType'] == 'paypal') {
+    if ($_SESSION['Creditcard']['cardType'] == 'paypal') {
         
         $result = sendPaypalRequest();
 
         if (is_array($result)) 
         {
-            $errors[] = $data['transaction_not_processed'];
+            $errors[] = 'Transaction Not Processed';
         } 
         else 
         {
@@ -175,7 +173,7 @@ function actionConfirm()
                 //sendConfirmationEmail($guid);
             }
         } else {
-			$errors[] = $data['transaction_treated'];
+			$errors[] = 'Transaction Treated';
         }
     }
     
@@ -201,7 +199,7 @@ function actionPaypalReturn($order)
         $result = $paypal->confirmExpressCheckout(false, $order['order_total'], $order['token']);
         if (is_array($result)) {
             update_order('status', 'Refused');
-            $errors[] = $data['transaction_failed'];
+            $errors[] = 'Transaction Failed';
         } else {
             $transactionId = $result;
             update_order('transaction_id', $transactionId, $order['guid']);
@@ -209,7 +207,7 @@ function actionPaypalReturn($order)
             //sendConfirmationEmail($order['guid']);
         }
     } else {
-        $errors[] = $data['order_not_found'];
+        $errors[] = 'Order Not Found';
     }
     
     if (count($errors) == 0) {
@@ -230,9 +228,9 @@ function actionPaypalCancel($order)
     //exit();
 }
 
-function sendConfirmationEmail($guid)
+/*function sendConfirmationEmail($guid)
 {
-    global $lang, $data;
+    global $lang;
     
     $guid = mysql_real_escape_string($guid);
     $query = "SELECT * FROM t_order WHERE guid = '{$guid}'";
@@ -415,7 +413,7 @@ function sendConfirmationEmail($guid)
 			//@unlink($a);
 		//}
 	//}
-}
+}*/
 
 function createPdf($sum, $id, $order)
 {
