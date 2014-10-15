@@ -3,7 +3,7 @@ session_start();
 
 $root = $_SERVER['DOCUMENT_ROOT'].'/';
 $root = str_replace('//', '/', $root);
-ini_set('include_path',ini_get('include_path').':'.$root.'lib/:');
+ini_set('include_path',ini_get('include_path').':'.$root.'lib/:'.$root.'lib/Paypal/:');
 
 include_once('db.php');
 include_once('functions.php');
