@@ -10,16 +10,16 @@ $db = Database::getInstance();
 if (strstr($_SERVER['HTTP_HOST'], 'skanderjabouzi.com'))
 {
 	$db->setHost('localhost');
-	$db->setUsername('root');
+	$db->setUsername('jabouzic_db');
 	$db->setPassword('7024043');
-	$db->setDatabase('paypal');
+	$db->setDatabase('jabouzic_paypal');
 }
 else
 {
 	$db->setHost('localhost');
-	$db->setUsername('jabouzic_db');
+	$db->setUsername('root');
 	$db->setPassword('7024043');
-	$db->setDatabase('jabouzic_paypal');
+	$db->setDatabase('paypal');
 }
 $db->setPort();
 $db->connect(); 
