@@ -29,7 +29,7 @@
 						<div class="section_inner fixed">
 							<h2 class="main">Paypal Payments</h2>
 							<section id="step3">
-								<form id="paypal_form" action="/process.php" method="POST">
+								<form id="paypal_form" action="process.php" method="POST">
 								<p class="instructions">
 									please fill in the necessary information so we can complete your purchase.</p>
 
