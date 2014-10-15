@@ -97,12 +97,12 @@ function sendPaypalRequest()
     $shipping_total = 5.0;
     
     $paypal = parseToPaypal();
-    $paypal->returnURL = rewrite_url(520);
-    $paypal->cancelURL = rewrite_url(521);
+    $paypal->returnURL = "http://skanderjabouzi.com/app/paypal/return.php";
+    $paypal->cancelURL = "http://skanderjabouzi.com/app/paypal/cancel.php";
     $paypal->custom = $_SESSION['uid'];
     $paypal->shippingTotal = (double)$shipping_total;
     $paypal->amount = (double)get_order_sum() + (double)$shipping_total;
-    $paypal->description = 'Cartes cadeaux.';
+    $paypal->description = 'Test Product';
     
     if ($paypal->sendExpressCheckoutRequest(false)) {
         return $paypal->token;
@@ -133,6 +133,8 @@ function getPaypalErrors($errorsCodes)
 function actionConfirmer()
 {
     global $data;
+    
+    $configuration = get_configs();
     $errors = array();
 
     if ($_SESSION['shipping_method']['cardType'] == 'paypal') {
@@ -146,7 +148,7 @@ function actionConfirmer()
             $token = $result;
             update_order('token', $token);
             clean_order();
-            $paypalUrl = 'https://www.paypal.com/webscr&cmd=_express-checkout&useraction=commit&token=' . $token;
+            $paypalUrl = $configuration['paypal']['paypalUrl'].'/webscr&cmd=_express-checkout&useraction=commit&token=' . $token;
             header('Location: '.$paypalUrl);
             exit();
         }
@@ -167,7 +169,7 @@ function actionConfirmer()
                 $_SESSION['transaction_id'] = $transactionId;
                 update_order('transaction_id', $transactionId);
                 update_order('status', 'Completed');
-                sendConfirmationEmail($guid);
+                //sendConfirmationEmail($guid);
             }
         } else {
 			$errors[] = $data['transaction_treated'];
@@ -177,7 +179,7 @@ function actionConfirmer()
     if (count($errors) == 0) {
         $transctionId = $_SESSION['transaction_id'];
         clean_order();
-        header('Location: '.rewrite_url(473).$transctionId.'/');
+        header('Location: http://skanderjabouzi.com/app/paypal/complete.php?t='.$transctionId);
         exit();
     } else {
         $_SESSION['orderWaiting'] = true;
@@ -201,14 +203,14 @@ function actionPaypalReturn($order)
             $transactionId = $result;
             update_order('transaction_id', $transactionId, $order['guid']);
             update_order('status', 'Completed', $order['guid']);
-            sendConfirmationEmail($order['guid']);
+            //sendConfirmationEmail($order['guid']);
         }
     } else {
         $errors[] = $data['order_not_found'];
     }
     
     if (count($errors) == 0) {
-        header('Location: '.rewrite_url(473).$transactionId.'/');
+        header('Location: http://skanderjabouzi.com/app/paypal/complete.php?t='.$transctionId);
         exit();
     } else {
         return $errors;
@@ -221,8 +223,8 @@ function actionPaypalCancel($order)
         update_order('status', 'Cancelled');
     }
     
-    header('Location: '.rewrite_url(468));
-    exit();
+    //header('Location: '.rewrite_url(468));
+    //exit();
 }
 
 function sendConfirmationEmail($guid)
@@ -656,6 +658,7 @@ function clean_order()
 {
     unset($_SESSION['uid']);
     unset($_SESSION['token']);
+    unset($_SESSION['transaction_id']);
 }
 
 function get_user_ip()

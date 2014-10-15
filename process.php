@@ -9,8 +9,15 @@ $billing_id = save_billing_address();
 if (isset($_POST['PayerAddress']['shipping'])) $shipping_id = $billing_id;
 else $shipping_id = save_shipping_address();
 save_order($billing_id, $shipping_id, $_POST['Creditcard']['cardType'], $_POST['Creditcard']['Price']);
-if ($_POST['Creditcard']['cardType'] == 'paypal') var_dump(sendPaypalRequest());
-else  var_dump(sendCreditRequest());
+if ($_POST['Creditcard']['cardType'] == 'paypal')
+{
+	$token = sendPaypalRequest();
+}
+else  
+{
+	$transaction_id = sendCreditRequest();
+	update_order('transaction_id', $transaction_id);
+}
 //save_order($_POST);
 //actionConfirmer($_GET['type']);
 
