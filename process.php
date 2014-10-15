@@ -1,24 +1,24 @@
 <?php
 
-//var_dump($_POST);
+//var_dump($_SESSION);
 include('includes/config.php');
 
-var_dump($_POST);
-
+$_SESSION = $_SESSION;
 $billing_id = save_billing_address();
-if (isset($_POST['PayerAddress']['shipping'])) $shipping_id = $billing_id;
+if (isset($_SESSION['PayerAddress']['shipping'])) $shipping_id = $billing_id;
 else $shipping_id = save_shipping_address();
-save_order($billing_id, $shipping_id, $_POST['Creditcard']['cardType'], $_POST['Creditcard']['Price']);
-if ($_POST['Creditcard']['cardType'] == 'paypal')
-{
-	$token = sendPaypalRequest();
-}
-else  
-{
-	$transaction_id = sendCreditRequest();
-	update_order('transaction_id', $transaction_id);
-}
-//save_order($_POST);
+save_order($billing_id, $shipping_id, $_SESSION['Creditcard']['cardType'], $_SESSION['Creditcard']['Price']);
+actionConfirm();
+//if ($_SESSION['Creditcard']['cardType'] == 'paypal')
+//{
+	//$token = sendPaypalRequest();
+//}
+//else  
+//{
+	//$transaction_id = sendCreditRequest();
+	//update_order('transaction_id', $transaction_id);
+//}
+//save_order($_SESSION);
 //actionConfirmer($_GET['type']);
 
 //array (size=3)

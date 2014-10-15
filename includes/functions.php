@@ -23,9 +23,9 @@ function parseToPaypal()
     $configuration = get_configs();
     require 'PaypalOrder.php';
     
-    $payerAddress = $_POST['PayerAddress'];
-    if (isset($_POST['PayerAddress']['shipping'])) $payerAddress = $shippingAddress;
-    else $shippingAddress = $_POST['ShippingAddress'];
+    $payerAddress = $_SESSION['PayerAddress'];
+    if (isset($_SESSION['PayerAddress']['shipping'])) $payerAddress = $shippingAddress;
+    else $shippingAddress = $_SESSION['ShippingAddress'];
 
     $paypal = new PaypalOrder($configuration);
     $options = array(
@@ -54,7 +54,7 @@ function parseToPaypal()
 
     $paypal->setOptions($options);
     
-    $amount = $_POST['Creditcard']['Price'];
+    $amount = $_SESSION['Creditcard']['Price'];
     $paypal->addItem('testproduct_'.$amount, $amount, 1, 'Test Product.', 1, 0);
     
     return $paypal;
@@ -67,21 +67,21 @@ function sendCreditRequest()
     $shipping_total = 5.0;
      
     $paypal = parseToPaypal();
-    $paypal->CardOwner = $_POST['Creditcard']['CardOwner'];
-    $paypal->CreditCardType = $_POST['Creditcard']['CardType'];
-    $paypal->CreditCardNumber = $_POST['Creditcard']['CardNumber'];
-    $paypal->ExpMonth = $_POST['Creditcard']['ExpMonth'];
-    $paypal->ExpYear = $_POST['Creditcard']['ExpYear'];
-    $paypal->CVV2 = $_POST['Creditcard']['CVV2'];
+    $paypal->CardOwner = $_SESSION['Creditcard']['CardOwner'];
+    $paypal->CreditCardType = $_SESSION['Creditcard']['CardType'];
+    $paypal->CreditCardNumber = $_SESSION['Creditcard']['CardNumber'];
+    $paypal->ExpMonth = $_SESSION['Creditcard']['ExpMonth'];
+    $paypal->ExpYear = $_SESSION['Creditcard']['ExpYear'];
+    $paypal->CVV2 = $_SESSION['Creditcard']['CVV2'];
     $paypal->shippingTotal = (double)$shipping_total;
-    $paypal->amount =  $_POST['Creditcard']['Price'] + (double)$shipping_total;
+    $paypal->amount =  $_SESSION['Creditcard']['Price'] + (double)$shipping_total;
     $paypal->description = 'Test Product';
     $result = $paypal->sendDirectPaymentRequest(false);
     if ($result) {
         update_order('lastCreditCardDigit', substr($paypal->CreditCardNumber, -4));
         return $paypal->transactionID;
     } else {
-		var_dump($paypal);
+		//var_dump($paypal);
         $errorsCodes = $paypal->getErrorsCodes();
         update_order('paypal_error_codes', implode(', ', $errorsCodes));
         $errors = getPaypalErrors($errorsCodes);
@@ -130,7 +130,7 @@ function getPaypalErrors($errorsCodes)
     return $errors;
 }
 
-function actionConfirmer()
+function actionConfirm()
 {
     global $data;
     
@@ -141,9 +141,11 @@ function actionConfirmer()
         
         $result = sendPaypalRequest();
 
-        if (is_array($result)) {
+        if (is_array($result)) 
+        {
             $errors[] = $data['transaction_not_processed'];
-        } else 
+        } 
+        else 
         {
             $token = $result;
             update_order('token', $token);
@@ -157,7 +159,8 @@ function actionConfirmer()
     {
         $guid = $_SESSION['uid'];
         
-        if (!isset($_SESSION['orderWaiting']) && get_order_count() > 0) {
+        if (!isset($_SESSION['orderWaiting']) && get_order_count() > 0) 
+        {
             $_SESSION['orderWaiting'] = true;
             update_order('status', 'Waiting');
             $result = sendCreditRequest();
@@ -490,7 +493,7 @@ function generate_guid()
 function save_shipping_address()
 {
 	global $db;
-	$data = $_POST['ShippingAddress'];
+	$data = $_SESSION['ShippingAddress'];
 	$countries = (array)get_coutries();
 	$args = array(
 		':first_name' => '',
@@ -539,7 +542,7 @@ function save_shipping_address()
 function save_billing_address()
 {
 	global $db;
-	$data = $_POST['PayerAddress'];
+	$data = $_SESSION['PayerAddress'];
 	$countries = get_coutries();
 	$args = array(
 		':first_name' => $data['first_name'],
@@ -656,9 +659,7 @@ function get_order_value($champ)
 
 function clean_order()
 {
-    unset($_SESSION['uid']);
-    unset($_SESSION['token']);
-    unset($_SESSION['transaction_id']);
+	foreach($_SESSION as $key => $value) unset($_SESSION['$key']);
 }
 
 function get_user_ip()
