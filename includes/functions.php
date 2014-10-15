@@ -81,7 +81,7 @@ function sendCreditRequest()
         update_order('lastCreditCardDigit', substr($paypal->CreditCardNumber, -4));
         return $paypal->transactionID;
     } else {
-		//var_dump($paypal);
+		var_dump($paypal);
         $errorsCodes = $paypal->getErrorsCodes();
         update_order('paypal_error_codes', implode(', ', $errorsCodes));
         $errors = getPaypalErrors($errorsCodes);
@@ -157,7 +157,7 @@ function actionConfirm()
     {
         $guid = $_SESSION['uid'];
         
-        if (!isset($_SESSION['orderWaiting']) && get_order_count() > 0) 
+        if (!isset($_SESSION['orderWaiting']))
         {
             $_SESSION['orderWaiting'] = true;
             update_order('status', 'Waiting');
