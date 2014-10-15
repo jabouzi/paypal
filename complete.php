@@ -14,7 +14,7 @@
 		<meta name="author" content="Skander Software Solutions">
 		<link rel="stylesheet" type="text/css" media="screen, projection" href="assets/reset.css">
 		<link rel="stylesheet" type="text/css" media="screen, projection" href="assets/paypal.css">
-		<link rel="stylesheet" type="text/css" media="print" href="assets/print.css">d
+		<link rel="stylesheet" type="text/css" media="print" href="assets/print.css">
 	</head>
 	<body>
 		<div id="wrap">
