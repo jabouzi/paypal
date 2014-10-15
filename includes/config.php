@@ -7,7 +7,7 @@ include_once('functions.php');
 if (!isset($_SESSION['uid'])) $_SESSION['uid'] = generate_guid();
 
 $db = Database::getInstance();
-if (strstr($_SERVER['HTTP_HOST'], 'editions-tgi.com'))
+if (strstr($_SERVER['HTTP_HOST'], 'skanderjabouzi.com'))
 {
 	$db->setHost('localhost');
 	$db->setUsername('root');
