@@ -4,6 +4,7 @@
 include('includes/config.php');
 
 $_SESSION = $_POST;
+var_dump($_SESSION);
 $billing_id = save_billing_address();
 if (isset($_SESSION['PayerAddress']['shipping'])) $shipping_id = $billing_id;
 else $shipping_id = save_shipping_address();
