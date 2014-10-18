@@ -18,7 +18,7 @@ function parseToPaypal()
     require 'PaypalOrder.php';
     
     $payerAddress = $_SESSION['PayerAddress'];
-    if (isset($_SESSION['PayerAddress']['shipping'])) $payerAddress = $shippingAddress;
+    if (isset($_SESSION['PayerAddress']['shipping']))  $shippingAddress = $payerAddress;
     else $shippingAddress = $_SESSION['ShippingAddress'];
 
     $paypal = new PaypalOrder($configuration);
