@@ -54,7 +54,7 @@
 																<img class="paypal" alt="PayPal" src="images/visa.png">
 															</label>
 															<label class="paypal_wrapper"  style="margin-right: 10px;">
-																<input type="radio" value="americanexpress" id="cardType4" name="Creditcard[CardType]" class="CardType">
+																<input type="radio" value="amex" id="cardType4" name="Creditcard[CardType]" class="CardType">
 																<img class="paypal" alt="PayPal" src="images/americanexpress.png">
 															</label>
 															<label class="paypal_wrapper"  style="margin-right: 10px;">
