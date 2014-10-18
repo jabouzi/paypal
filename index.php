@@ -42,31 +42,31 @@
 														<dt>PAYMENT</dt>
 														<dd id="label_CardType" class="clearfix">
 															<label class="paypal_wrapper" style="margin-right: 10px;">
-																<input type="radio" value="paypal" id="cardType1" name="Creditcard[CardType]" class="CardType">
+																<input type="radio" value="Paypal" id="cardType1" name="Creditcard[CardType]" class="CardType">
 																<img class="paypal" alt="PayPal" src="images/paypal.png">
 															</label>
 															<label class="paypal_wrapper"  style="margin-right: 10px;">
-																<input type="radio" value="mastercard" id="cardType2" name="Creditcard[CardType]" class="CardType" checked>
+																<input type="radio" value="MasterCard" id="cardType2" name="Creditcard[CardType]" class="CardType" checked>
 																<img class="paypal" alt="PayPal" src="images/mastercard.png">
 															</label>
 															<label class="paypal_wrapper"  style="margin-right: 10px;">
-																<input type="radio" value="visa" id="cardType3" name="Creditcard[CardType]" class="CardType">
+																<input type="radio" value="Visa" id="cardType3" name="Creditcard[CardType]" class="CardType">
 																<img class="paypal" alt="PayPal" src="images/visa.png">
 															</label>
 															<label class="paypal_wrapper"  style="margin-right: 10px;">
-																<input type="radio" value="amex" id="cardType4" name="Creditcard[CardType]" class="CardType">
+																<input type="radio" value="Amex" id="cardType4" name="Creditcard[CardType]" class="CardType">
 																<img class="paypal" alt="PayPal" src="images/americanexpress.png">
 															</label>
 															<label class="paypal_wrapper"  style="margin-right: 10px;">
-																<input type="radio" value="discover" id="cardType5" name="Creditcard[CardType]" class="CardType">
+																<input type="radio" value="Discover" id="cardType5" name="Creditcard[CardType]" class="CardType">
 																<img class="paypal" alt="PayPal" src="images/discover.png">
 															</label>
 															<label class="paypal_wrapper"  style="margin-right: 10px;">
-																<input type="radio" value="dinersclub" id="cardType6" name="Creditcard[CardType]" class="CardType">
+																<input type="radio" value="DinersClub" id="cardType6" name="Creditcard[CardType]" class="CardType">
 																<img class="paypal" alt="PayPal" src="images/dinersclub.png">
 															</label>
 															<label class="paypal_wrapper"  style="margin-right: 10px;">
-																<input type="radio" value="solo" id="cardType7" name="Creditcard[CardType]" class="CardType">
+																<input type="radio" value="Solo" id="cardType7" name="Creditcard[CardType]" class="CardType">
 																<img class="paypal" alt="PayPal" src="images/solo.png">
 															</label>
 														</dd>
