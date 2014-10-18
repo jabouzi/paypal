@@ -46,7 +46,7 @@ function parseToPaypal()
 	$options['Firstname'] = $shippingAddress['first_name'];
 	$options['Lastname'] = $shippingAddress['last_name'];
 	
-	var_dump($options);
+	var_dump($payerAddress, $options);
 
     $paypal->setOptions($options);
     
