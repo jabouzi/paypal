@@ -20,6 +20,8 @@ function parseToPaypal()
     $payerAddress = $_SESSION['PayerAddress'];
     if (isset($_SESSION['PayerAddress']['shipping']))  $shippingAddress = $payerAddress;
     else $shippingAddress = $_SESSION['ShippingAddress'];
+    
+    $countries = (array)get_coutries();
 
     $paypal = new PaypalOrder($configuration);
     $options = array(
@@ -28,7 +30,7 @@ function parseToPaypal()
             'Street2' => $payerAddress['street2'],
             'CityName' => $payerAddress['city_name'],
             'StateOrProvince' => $payerAddress['state_or_province'],
-            'Country' => $payerAddress['country'],
+            'Country' => $countries[$payerAddress['country']],
             'PostalCode' => $payerAddress['postal_code'],
         ),
         'ShippingAddress' => array(
@@ -36,7 +38,7 @@ function parseToPaypal()
             'Street2' => $shippingAddress['street2'],
             'CityName' => $shippingAddress['city_name'],
             'StateOrProvince' => $shippingAddress['state_or_province'],
-            'Country' => $shippingAddress['country'],
+            'Country' => $countries[$shippingAddress['country']],
             'PostalCode' => $shippingAddress['postal_code'],
         ),
         'Firstname' => $payerAddress['first_name'],
