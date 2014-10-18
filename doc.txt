@@ -6,3 +6,12 @@ http://mrmagne.com/dummy-credit-card-numbers/
 
 Three step gateway
 http://www.cyogate.com/gateway_redirect_testing.html
+
+Credit card
+
+Credit card number:
+4214024507567935
+Credit card type:
+Visa
+Expiration date:
+9/2019

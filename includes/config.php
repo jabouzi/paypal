@@ -29,15 +29,7 @@ $db->setPort();
 $db->connect(); 
 $db->query("SET NAMES 'utf8'",'');
 
-$configuration['live']['paypal'] = array(
-	'environment' => 'live',
-	'APIUsername' => '',
-	'APIPassword' => '',
-	'APISignature' => '',
-	'APICertificate' => null,
-	'paypalUrl' => 'https://www.paypal.com/',
-);
-$configuration['sandbox']['paypal']	 = array(
+$configuration['paypal'] = array(
 	'environment' => 'sandbox',
 	'APIUsername' => 'jabouzi_api1.gmail.com',
 	'APIPassword' => '4X6MBWTCUJSVL7JS',

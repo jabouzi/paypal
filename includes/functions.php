@@ -12,15 +12,9 @@ function get_states($country)
 	return json_decode($states[$country]);
 }
 
-function get_configs($type = 'sandbox')
-{
-	global $configuration;
-	return $configuration[$type];
-}
-
 function parseToPaypal()
 {
-    $configuration = get_configs();
+    global $configuration;
     require 'PaypalOrder.php';
     
     $payerAddress = $_SESSION['PayerAddress'];
@@ -81,7 +75,8 @@ function sendCreditRequest()
         update_order('lastCreditCardDigit', substr($paypal->CreditCardNumber, -4));
         return $paypal->transactionID;
     } else {
-		//var_dump($paypal);
+		echo '<pre>';
+		var_dump($paypal);
         $errorsCodes = $paypal->getErrorsCodes();
         update_order('paypal_error_codes', implode(', ', $errorsCodes));
         $errors = getPaypalErrors($errorsCodes);
@@ -132,7 +127,7 @@ function getPaypalErrors($errorsCodes)
 
 function actionConfirm()
 {    
-    $configuration = get_configs();
+    global $configuration;
     $errors = array();
 
     if ($_SESSION['Creditcard']['cardType'] == 'paypal') {
