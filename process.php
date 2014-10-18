@@ -1,5 +1,5 @@
 <?php
-
+echo '<pre>';
 //var_dump($_SESSION);
 include('includes/config.php');
 

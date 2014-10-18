@@ -45,6 +45,8 @@ function parseToPaypal()
 
 	$options['Firstname'] = $shippingAddress['first_name'];
 	$options['Lastname'] = $shippingAddress['last_name'];
+	
+	var_dump($options);
 
     $paypal->setOptions($options);
     
@@ -75,7 +77,6 @@ function sendCreditRequest()
         update_order('lastCreditCardDigit', substr($paypal->CreditCardNumber, -4));
         return $paypal->transactionID;
     } else {
-		echo '<pre>';
 		var_dump($paypal);
         $errorsCodes = $paypal->getErrorsCodes();
         update_order('paypal_error_codes', implode(', ', $errorsCodes));
