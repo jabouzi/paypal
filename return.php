@@ -1,5 +1,5 @@
 <?php 
-
+var_dump($_GET);
 include('includes/config.php');
 
 $token = mysql_real_escape_string($_REQUEST['token']);
