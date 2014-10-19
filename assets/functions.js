@@ -16,7 +16,7 @@ jQuery(document).ready(function() {
 		$("#shipping_adress").children().hide();
 	}
 
-	$(".cardType").click(function() {
+	$(".CardType").click(function() {
 		$(".credit").children().show();
 		$(".credit").show();
 		if ($("#cardType1").is(":checked"))
