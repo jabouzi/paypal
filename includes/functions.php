@@ -24,37 +24,40 @@ function parseToPaypal()
     $countries = (array)get_coutries();
 
     $paypal = new PaypalOrder($configuration);
-    $options = array(
-        'PayerAddress' => array(
-            'Street1' => $payerAddress['street1'],
-            'Street2' => $payerAddress['street2'],
-            'CityName' => $payerAddress['city_name'],
-            'StateOrProvince' => $payerAddress['state_or_province'],
-            'Country' => $countries[$payerAddress['country']][2],
-            'PostalCode' => $payerAddress['postal_code'],
-        ),
-        'ShippingAddress' => array(
-            'Street1' => $shippingAddress['street1'],
-            'Street2' => $shippingAddress['street2'],
-            'CityName' => $shippingAddress['city_name'],
-            'StateOrProvince' => $shippingAddress['state_or_province'],
-            'Country' => $countries[$shippingAddress['country']][2],
-            'PostalCode' => $shippingAddress['postal_code'],
-        ),
-        'Firstname' => $payerAddress['first_name'],
-        'Lastname' => $payerAddress['last_name'],
-    );
+    if ($_SESSION['Creditcard']['CardType'] != 'Paypal')
+    {
+		$options = array(
+			'PayerAddress' => array(
+				'Street1' => $payerAddress['street1'],
+				'Street2' => $payerAddress['street2'],
+				'CityName' => $payerAddress['city_name'],
+				'StateOrProvince' => $payerAddress['state_or_province'],
+				'Country' => $countries[$payerAddress['country']][2],
+				'PostalCode' => $payerAddress['postal_code'],
+			),
+			'ShippingAddress' => array(
+				'Street1' => $shippingAddress['street1'],
+				'Street2' => $shippingAddress['street2'],
+				'CityName' => $shippingAddress['city_name'],
+				'StateOrProvince' => $shippingAddress['state_or_province'],
+				'Country' => $countries[$shippingAddress['country']][2],
+				'PostalCode' => $shippingAddress['postal_code'],
+			),
+			'Firstname' => $payerAddress['first_name'],
+			'Lastname' => $payerAddress['last_name'],
+		);
 
-	$options['Firstname'] = $shippingAddress['first_name'];
-	$options['Lastname'] = $shippingAddress['last_name'];
+		$options['Firstname'] = $shippingAddress['first_name'];
+		$options['Lastname'] = $shippingAddress['last_name'];
 	
-	//var_dump($_SESSION, $payerAddress, $options);
+		//var_dump($_SESSION, $payerAddress, $options);
 
-    $paypal->setOptions($options);
+		$paypal->setOptions($options);
+    }
     
     $amount = $_SESSION['Creditcard']['Price'];
     $paypal->addItem('testproduct_'.$amount, $amount, 1, 'Test Product.', 1, 0);
-    
+
     return $paypal;
 }
 
@@ -92,7 +95,7 @@ function sendCreditRequest()
 
 function sendPaypalRequest()
 {
-    global $data;
+    global $data, $configuration;
     $errors = array();
     $shipping_total = 5.0;
     
@@ -106,7 +109,7 @@ function sendPaypalRequest()
     $paypal->noShipping = $noShipping;
     $paypal->description = '...';
     $paypal->logoimg = '';
-    
+
     if ($paypal->sendExpressCheckoutRequest(false)) 
     {
         return $paypal->token;
@@ -117,6 +120,7 @@ function sendPaypalRequest()
 		update_order('paypal_error_codes', implode(', ', $errorsCodes));
         return $paypal->getErrors();
     }
+
 }
 
 //function getPaypalErrors($errorsCodes)
@@ -141,10 +145,10 @@ function actionConfirm()
     global $configuration;
     $errors = array();
 
-    if ($_SESSION['Creditcard']['cardType'] == 'Paypal') 
+    if ($_SESSION['Creditcard']['CardType'] == 'Paypal') 
     {
         $result = sendPaypalRequest();
-		var_dump($result);exit;
+        
         if (is_array($result)) 
         {
             update_order('status', 'Refused');
