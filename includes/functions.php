@@ -30,7 +30,7 @@ function parseToPaypal()
             'Street2' => $payerAddress['street2'],
             'CityName' => $payerAddress['city_name'],
             'StateOrProvince' => $payerAddress['state_or_province'],
-            'Country' => $countries[$payerAddress['country']][2],
+            'Country' => $countries[$payerAddress['country']][0],
             'PostalCode' => $payerAddress['postal_code'],
         ),
         'ShippingAddress' => array(
@@ -38,7 +38,7 @@ function parseToPaypal()
             'Street2' => $shippingAddress['street2'],
             'CityName' => $shippingAddress['city_name'],
             'StateOrProvince' => $shippingAddress['state_or_province'],
-            'Country' => $countries[$shippingAddress['country']][2],
+            'Country' => $countries[$shippingAddress['country']][0],
             'PostalCode' => $shippingAddress['postal_code'],
         ),
         'Firstname' => $payerAddress['first_name'],
