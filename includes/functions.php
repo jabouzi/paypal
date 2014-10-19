@@ -75,10 +75,13 @@ function sendCreditRequest()
     $paypal->amount =  $_SESSION['Creditcard']['Price'] + (double)$shipping_total;
     $paypal->description = 'Test Product';
     $result = $paypal->sendDirectPaymentRequest(false);
-    if ($result) {
+    if ($result) 
+    {
         update_order('lastCreditCardDigit', substr($paypal->CreditCardNumber, -4));
         return $paypal->transactionID;
-    } else {
+    } 
+    else 
+    {
         $errorsCodes = $paypal->getErrorsCodes();
         update_order('paypal_error_codes', implode(', ', $errorsCodes));
         return $paypal->getErrors();
@@ -101,9 +104,12 @@ function sendPaypalRequest()
     $paypal->amount = $_SESSION['Creditcard']['Price'] + (double)$shipping_total;
     $paypal->description = 'Test Product';
     
-    if ($paypal->sendExpressCheckoutRequest(false)) {
+    if ($paypal->sendExpressCheckoutRequest(false)) 
+    {
         return $paypal->token;
-    } else {
+    } 
+    else 
+    {
 		$errorsCodes = $paypal->getErrorsCodes();
 		update_order('paypal_error_codes', implode(', ', $errorsCodes));
         return $paypal->getErrors();
@@ -159,26 +165,26 @@ function actionConfirm()
             $_SESSION['orderWaiting'] = true;
             update_order('status', 'Waiting');
             $result = sendCreditRequest();
-            if (is_array($result)) {
+            if (is_array($result)) 
+            {
                 update_order('status', 'Refused');
-            } else {
+            } 
+            else 
+            {
                 $transactionId = $result;
                 $_SESSION['transaction_id'] = $transactionId;
                 update_order('transaction_id', $transactionId);
                 update_order('status', 'Completed');
-                //sendConfirmationEmail($guid);
             }
-        } else {
+        } 
+        else 
+        {
 			$result[] = 'Transaction Treated';
         }
     }
     
-    if (!is_array($result)) {
-        $transctionId = $_SESSION['transaction_id'];
-        clean_order();
-        header('Location: http://skanderjabouzi.com/app/paypal/complete.php?t='.$transctionId);
-        exit();
-    } else {
+    if (is_array($result)) 
+    {
         $_SESSION['orderWaiting'] = true;
     }
     
@@ -190,26 +196,35 @@ function actionPaypalReturn($order)
     global $data;
     $errors = array();
 
-    if ($order != null) {
+    if ($order != null) 
+    {
         $paypal = parseToPaypal();
         $result = $paypal->confirmExpressCheckout(false, $order['order_total'], $order['token']);
-        if (is_array($result)) {
+        if (is_array($result)) 
+        {
             update_order('status', 'Refused');
             $errors[] = 'Transaction Failed';
-        } else {
+        } 
+        else 
+        {
             $transactionId = $result;
             update_order('transaction_id', $transactionId, $order['guid']);
             update_order('status', 'Completed', $order['guid']);
             //sendConfirmationEmail($order['guid']);
         }
-    } else {
+    } 
+    else 
+    {
         $errors[] = 'Order Not Found';
     }
     
-    if (count($errors) == 0) {
+    if (count($errors) == 0) 
+    {
         header('Location: http://skanderjabouzi.com/app/paypal/complete.php?t='.$transctionId);
         exit();
-    } else {
+    } 
+    else 
+    {
         return $errors;
     }
 }

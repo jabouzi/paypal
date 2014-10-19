@@ -1,5 +1,4 @@
 <?php
-echo '<pre>';
 
 include('includes/config.php');
 
