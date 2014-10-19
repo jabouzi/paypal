@@ -198,72 +198,43 @@ function actionConfirm()
     return $result;
 }
 
-function actionPaypalReturn($order)
+function actionPaypalReturn($token, $transactionId)
 {
     global $data;
     $errors = array();
 
-    if ($order != null) 
+    if ($token) 
     {
-        $paypal = parseToPaypal();
-        $result = $paypal->confirmExpressCheckout(false, $order['order_total'], $order['token']);
+		$order_total = get_order_value('order_total', $token);
+		$type = get_order_value('order_description', $token);
+        $paypal = parseToPaypal($type);
+        $result = $paypal->confirmExpressCheckout(false, $order_total, $token);
         if (is_array($result)) 
         {
             update_order('status', 'Refused');
-            $errors[] = 'Transaction Failed';
         } 
         else 
         {
             $transactionId = $result;
-            update_order('transaction_id', $transactionId, $order['guid']);
-            update_order('status', 'Completed', $order['guid']);
-            //sendConfirmationEmail($order['guid']);
+            update_order('transaction_id', $transactionId, $token);
+            update_order('status', 'Completed', $token);
         }
     } 
-    else 
-    {
-        $errors[] = 'Order Not Found';
-    }
     
-    //if (count($errors) == 0) 
-    //{
-        //header('Location: http://skanderjabouzi.com/app/paypal/complete.php?t='.$transctionId);
-        //exit();
-    //} 
-    //else 
-    //{
-        return $errors;
-    //}
+    return $result;
 }
 
-function actionPaypalCancel()
+function actionPaypalCancel($token)
 {
-    update_order('status', 'Cancelled');
+	if ($token)
+	{
+		update_order('status', 'Cancelled', $token);
+	}
 }
 
-/*function sendConfirmationEmail($guid)
+function sendConfirmationEmail()
 {
     global $lang;
-    
-    $guid = mysql_real_escape_string($guid);
-    $query = "SELECT * FROM t_order WHERE guid = '{$guid}'";
-    $res = mysql_query($query);
-    $order = mysql_fetch_assoc($res);
-
-    $query = "SELECT * FROM t_order_item WHERE order_guid = '{$guid}'";
-    $res = mysql_query($query);
-    while($temp = mysql_fetch_assoc($res))
-    {
-        $order_items[] = $temp;
-    }
-    
-    $query = "SELECT * FROM t_address WHERE id = '{$order['payer_address_id']}'";
-    $res = mysql_query($query);
-    $order_address = mysql_fetch_assoc($res);
-    
-    $query = "SELECT * FROM t_address WHERE id = '{$order['shipping_address_id']}'";
-    $res = mysql_query($query);
-    $shipping_address = mysql_fetch_assoc($res);
     
     $configuration = array('email', array(
         'outgoing' => array(
@@ -271,33 +242,28 @@ function actionPaypalCancel()
             'parameters' => array(
                 'path' => '/usr/sbin/sendmail', // pour sendmail, pas nécessaire pour smtp
             ),
-            'fromName' => 'skyspa.ca',
-            'fromAddress' => 'info@skyspa.ca',
+            'fromName' => 'Test Paypal',
+            'fromAddress' => 'info@test.com',
         ),
-        'adminAddress' => 'info@skyspa.ca',
+        'adminAddress' => 'info@test.ca',
     ));
     
-    require_once ROOT.'includes/SimpleMailer.php';
-    require_once ROOT.'includes/SimpleTranslate.php';
-    require_once ROOT.'includes/SimpleTemplate.php';
+    require_once 'Mailer.php';
+    require_once 'Template.php';
     
 	// Envoi du email
 	$emailConfig = $configuration['email']['outgoing'];
-	$mailer = new SimpleMailer(SimpleMailer::OUTGOING_SERVER);
-	$adminMailer = new SimpleMailer(SimpleMailer::OUTGOING_SERVER);
+	$mailer = new Mailer(Mailer::OUTGOING_SERVER);
+	$adminMailer = new Mailer(Mailer::OUTGOING_SERVER);
 	
-	$message = new SimpleMessage();
-	$adminMessage = new SimpleMessage();
-	$message->setSubject('Confirmation d\'achat');
-	$adminMessage->setSubject('Confirmation d\'achat');
-	$message->setFrom('info@skyspa.ca', 'skyspa.ca');
-	$adminMessage->setFrom('info@skyspa.ca', 'skyspa.ca');
-	if ($order['shipping_method'] == 'email') {
-		$message->setTo($order_address['email']);
-	} else {
-		$message->setTo($shipping_address['email']);
-	}
-	$adminMessage->setTo('info@skyspa.ca');
+	$message = new Message();
+	$adminMessage = new Message();
+	$message->setSubject('Order Confirmation');
+	$adminMessage->setSubject('Order Confirmation');
+	$message->setFrom('info@test.com', 'test.com');
+	$adminMessage->setFrom('info@test.com', 'test.com');
+	$message->setTo($_SESSION['PayerAddress']);
+	$adminMessage->setTo('jabouzi@gmail.com');
 	
 	// Gestion des templates
 	$htmlContent = file_get_contents(ROOT . 'templates' . '/' . $lang . '/email.html');
@@ -305,22 +271,14 @@ function actionPaypalCancel()
 	$plainContent = file_get_contents(ROOT . 'templates' . '/' . $lang .  '/email.txt');
 	$adminPlainContent = file_get_contents(ROOT . 'templates' . '/' . $lang . '/adminEmail.txt');
 	
-	$templateHtml = new SimpleTemplate($htmlContent);
-	$adminTemplateHtml = new SimpleTemplate($adminHtmlContent);
-	$templatePlainText = new SimpleTemplate($plainContent);
-	$adminTemplatePlainText = new SimpleTemplate($adminPlainContent);
+	$templateHtml = new Template($htmlContent);
+	$adminTemplateHtml = new Template($adminHtmlContent);
+	$templatePlainText = new Template($plainContent);
+	$adminTemplatePlainText = new Template($adminPlainContent);
 
-	$itemsList = '';
-	foreach ($order_items as $item) {
-        if ($item['quantity'] > 1) $itemsList .= sprintf($data['gift_card'], $item['quantity'], SimpleTranslate::formatNumber($item['amount'], $lang));
-        else $itemsList .= sprintf($data['gift_card'], $item['quantity'], SimpleTranslate::formatNumber($item['amount'], $lang));
-	}
-	if ($order['shipping_method'] == 'recommanded_parcel') {
-		$itemsList .= sprintf($data['delivry_fee'], SimpleTranslate::formatNumber($order['shipping_total'], $lang));
-	}
-	if ($order['shipping_method'] == 'regular_post') {
-		$itemsList .= sprintf($data['delivry_fee'], SimpleTranslate::formatNumber($order['shipping_total'], $lang));
-	}
+    $itemsList = sprintf($data['gift_card'], $item['quantity'], Translate::formatNumber($item['amount'], $lang));	
+	$itemsList .= sprintf($data['delivry_fee'], Translate::formatNumber($order['shipping_total'], $lang));
+	
 	
 	switch ($order['shipping_method']) {
 		case 'regular_post': 
@@ -376,7 +334,7 @@ function actionPaypalCancel()
 		'urlRoot' => SITE_URL,
 		'transactionId' => $order['transaction_id'],
 		'itemsList' => $itemsList,
-		'orderTotal' => sprintf($data['text_format'],  SimpleTranslate::formatNumber(get_order_sum($order_items), $lang)),
+		'orderTotal' => sprintf($data['text_format'],  Translate::formatNumber(get_order_sum($order_items), $lang)),
 		'shippingRelatedMessage' => $shippingRelatedMessage,
         'productType' => $str
 	);
@@ -431,14 +389,14 @@ function actionPaypalCancel()
 function createPdf($sum, $id, $order)
 {
     global $lang;
-    require_once ROOT.'includes/SimplePDF.php';
+    require_once ROOT.'includes/PDF.php';
 	$price = $sum;
 	$transaction_id = $order['transaction_id'] . '-' . $id;
 	$unique = sha1(uniqid(time()));
 	$date = time(); //optional . Today as default.
 	$pdfFilename = '/tmp/certificate_' . $sum . '_' . $unique . '.pdf';
 	
-	$pdf = new SimplePDF($lang, $price, $transaction_id, $date);
+	$pdf = new PDF($lang, $price, $transaction_id, $date);
 	$pdf->distiller();
 	$pdf->Output($pdfFilename, 'F');
     
@@ -610,7 +568,7 @@ function save_order($payerAddressId, $shippingAddressId, $cardType, $price)
 		':shipping_id' => $shippingAddressId,
 		':token' => '0',
 		':order_total' => ($price + 5.0),
-		':order_description' => '',
+		':order_description' => 'Paypal_payement_'.$cardType,
 		':status' => '',
 		':paypal_error_codes' => '',
 		':cardtype' => $cardType,

@@ -1,0 +1,29 @@
+TEST
+test.com | 1 800-555-5555
+
+
+Hello [[User]],
+
+Thank you for purchasing a test product. The product of well-being is the greatest product of all.
+
+[[shippingRelatedMessage]]
+
+===================================
+
+Confirmation number:
+[[transactionId]]
+
+--------------------------------
+
+Purchases:
+[[itemsList]]]
+
+--------------------------------
+
+Total :
+[[orderTotal]]
+
+===================================
+
+Visit our site at
+[[urlRoot]]
