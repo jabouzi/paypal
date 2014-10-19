@@ -280,37 +280,18 @@ function sendConfirmationEmail()
 	$itemsList .= sprintf($data['delivry_fee'], Translate::formatNumber($order['shipping_total'], $lang));
 	
 	
-	switch ($order['shipping_method']) {
-		case 'regular_post': 
-            if ($nbItems > 1) $shippingRelatedMessage = $data['email_message2'];
-            else $shippingRelatedMessage = $data['email_message1'];
-			$shippingMethod = $data['reg_mail'];
-			break;
-		case 'recommanded_parcel': 
-			if ($nbItems > 1) $shippingRelatedMessage = $data['email_message4'];
-			else $shippingRelatedMessage = $data['email_message3'];
-            $shippingMethod = $data['par_mail'];
-			break;
-		case 'email': 
-			if ($nbItems > 1) $shippingRelatedMessage = $data['email_message6'];
-			else $shippingRelatedMessage = $data['email_message5'];
-            $shippingMethod = $data['email_mail'];
-			break;
-	}
-	if ($order['shipping_method'] == 'email') {
-		$shippingAddress = 'courriel: ' . $shipping_address['email']; 
-	} else {
+	
 		$shippingAddress = 'Nom: ' .$shipping_address['first_name'] . ' ' . 
 			$shipping_address['last_name'] . '<br />';
 		$shippingAddress .= 'Adresse: ' . $shipping_address['street1'] . ' ' .
 			$shipping_address['street2'] . '<br />' . $shipping_address['city_name'] . ', ' .
 			$shipping_address['state_or_province'] . ', ' . $shipping_address['postal_code'] . '<br />';
-	}
+
 	
-	if ($_SESSION['token'] != '') {
 		$payerAddress = $order_address['phone'] . '<br />';
 		$payerAddress .= 'Courriel : ' . $order_address['email']. '<br /><br />';
-	} else {
+
+
 		$payerAddress = 'Nom: ' .$order_address['first_name'] . ' ' . 
 			$order_address['last_name'] . '<br />';
 		$payerAddress .= 'Adresse: ' . $order_address['street1'] . ' ' .
@@ -318,7 +299,7 @@ function sendConfirmationEmail()
 			$order_address['state_or_province'] . ', ' . $order_address['postal_code'] . '<br />';
 		$payerAddress .= $order_address['phone'] . '<br />';
 		$payerAddress .= 'Courriel : ' . $order_address['email'] . '<br /><br />';
-	}
+
 	
 	if (isset($order['lastCreditCardDigit']) && strlen($order['lastCreditCardDigit']) == 4) {
 		$creditCard = 'xxxx-xxxx-xxxx-' . $order['lastCreditCardDigit'] . '<br />';
