@@ -141,7 +141,7 @@ function actionConfirm()
     global $configuration;
     $errors = array();
 
-    if ($_SESSION['Creditcard']['cardType'] == 'paypal') 
+    if ($_SESSION['Creditcard']['cardType'] == 'Paypal') 
     {
         $result = sendPaypalRequest();
 
