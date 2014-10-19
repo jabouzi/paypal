@@ -2,7 +2,7 @@
 jQuery(document).ready(function() {
 	$(".credit").children().show();
 	$(".credit").show();
-	if ($("#cardtype1").is(":checked"))
+	if ($("#cardType1").is(":checked"))
 	{
 		$(".credit").hide();
 		$(".credit").children().hide();
@@ -19,7 +19,7 @@ jQuery(document).ready(function() {
 	$(".cardType").click(function() {
 		$(".credit").children().show();
 		$(".credit").show();
-		if ($("#cardtype1").is(":checked"))
+		if ($("#cardType1").is(":checked"))
 		{
 			$(".credit").hide();
 			$(".credit").children().hide();
