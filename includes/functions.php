@@ -666,7 +666,7 @@ function get_order_value($champ)
 
 function clean_order()
 {
-	foreach($_SESSION as $key => $value) unset($_SESSION['$key']);
+	$_SESSION = NULL;
 }
 
 function get_user_ip()
