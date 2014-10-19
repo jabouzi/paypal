@@ -11,7 +11,7 @@ include_once('functions.php');
 if (!isset($_SESSION['uid'])) $_SESSION['uid'] = generate_guid();
 
 $db = Database::getInstance();
-if (strstr($_SERVER['HTTP_HOST'], 'skanderjabouzi.com'))
+if (strstr($_SERVER['HTTP_HOST'], 'jabouzi.com'))
 {
 	$db->setHost('localhost');
 	$db->setUsername('jabouzic_db');
