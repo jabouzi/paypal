@@ -24,12 +24,8 @@
 						<div class="section_inner fixed">
 							<h2 class="main">Paypal Payments</h2>
 							<section id="step3">
-								<p class="instructions">
-									please fill in the necessary information so we can complete your purchase.</p>
-
-									<footer>
-									</footer>
-								</form>
+								<p class="instructions"><?php echo $_SESSION['paypal_message']; ?></p>
+								<footer></footer>
 							</section>
 						</div>
 					</section>
