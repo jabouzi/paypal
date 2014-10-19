@@ -97,12 +97,15 @@ function sendPaypalRequest()
     $shipping_total = 5.0;
     
     $paypal = parseToPaypal();
-    $paypal->returnURL = "http://skanderjabouzi.com/app/paypal/return.php";
-    $paypal->cancelURL = "http://skanderjabouzi.com/app/paypal/cancel.php";
+    $paypal->returnURL = $configuration['siteurl']."return.php";
+    $paypal->cancelURL = $configuration['siteurl']."cancel.php";
     $paypal->custom = $_SESSION['uid'];
     $paypal->shippingTotal = (double)$shipping_total;
     $paypal->amount = $_SESSION['Creditcard']['Price'] + (double)$shipping_total;
     $paypal->description = 'Test Product';
+    $paypal->noShipping = $noShipping;
+    $paypal->description = '...';
+    $paypal->logoimg = '';
     
     if ($paypal->sendExpressCheckoutRequest(false)) 
     {
@@ -218,15 +221,15 @@ function actionPaypalReturn($order)
         $errors[] = 'Order Not Found';
     }
     
-    if (count($errors) == 0) 
-    {
-        header('Location: http://skanderjabouzi.com/app/paypal/complete.php?t='.$transctionId);
-        exit();
-    } 
-    else 
-    {
+    //if (count($errors) == 0) 
+    //{
+        //header('Location: http://skanderjabouzi.com/app/paypal/complete.php?t='.$transctionId);
+        //exit();
+    //} 
+    //else 
+    //{
         return $errors;
-    }
+    //}
 }
 
 function actionPaypalCancel()

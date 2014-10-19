@@ -45,6 +45,5 @@ $configuration['paypal'] = array(
 	'APICertificate' => null,
 	'paypalUrl' => 'https://www.sandbox.paypal.com/',
 );
-$configuration['noShipping'] = 0;
-$configuration['description'] = 0;
-$configuration['logoimg'] = 0;
+
+$configuration['siteurl'] = 'http://jabouzi.com/';

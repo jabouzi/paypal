@@ -22,9 +22,21 @@
 				<div id="wrapper">
 					<section class="section">
 						<div class="section_inner fixed">
-							<h2 class="main">Paypal Payments</h2>
+							<?php if (is_array($_SESSION['result']) : ?>
+								<h2 class="main">Error occured</h2>
+							<?php else : ?>
+								<h2 class="main">Transaction completed</h2>
+							<?php endif; ?>
 							<section id="step3">
-								<p class="instructions"><?php echo $_SESSION['paypal_message']; ?></p>
+								<?php if (is_array($_SESSION['result']) : ?>
+									<p class="instructions">
+										<?php foreach($_SESSION['result'] as $code => $message) {
+											echo $code . ' : ' . $message;
+										} ?>
+									</p>
+								<?php else : ?>
+									<p class="instructions">Confirmation number : <?php echo $_SESSION['result']; ?></p>
+								<?php endif; ?>
 								<footer></footer>
 							</section>
 						</div>
@@ -34,3 +46,4 @@
 		</div>
 	</body>
 </html>
+<?php clean_order(); ?>
