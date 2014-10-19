@@ -667,7 +667,6 @@ function get_order_value($champ)
 function clean_order()
 {
 	$_SESSION = array();
-	var_dump($_SESSION);
 }
 
 function get_user_ip()
