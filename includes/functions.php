@@ -666,7 +666,7 @@ function get_order_value($champ)
 
 function clean_order()
 {
-	$_SESSION = NULL;
+	$_SESSION = array();
 	var_dump($_SESSION);
 }
 
