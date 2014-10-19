@@ -97,7 +97,6 @@ function sendPaypalRequest()
     $shipping_total = 5.0;
     
     $paypal = parseToPaypal();
-    var_dump($paypal);exit;
     $paypal->returnURL = $configuration['siteurl']."return.php";
     $paypal->cancelURL = $configuration['siteurl']."cancel.php";
     $paypal->custom = $_SESSION['uid'];
@@ -145,7 +144,7 @@ function actionConfirm()
     if ($_SESSION['Creditcard']['cardType'] == 'Paypal') 
     {
         $result = sendPaypalRequest();
-
+		var_dump($result);exit;
         if (is_array($result)) 
         {
             update_order('status', 'Refused');
