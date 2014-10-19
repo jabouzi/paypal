@@ -46,4 +46,4 @@ $configuration['paypal'] = array(
 	'paypalUrl' => 'https://www.sandbox.paypal.com/',
 );
 
-$configuration['siteurl'] = 'http://jabouzi.com/';
+$configuration['siteurl'] = 'http://test.jabouzi.com/';
