@@ -1,4 +1,4 @@
-<?php include('includes/config.php'); var_dump($_SESSION); ?>
+<?php include('includes/config.php'); ?>
 <?php if (!isset($_SESSION['result']))
 {
 	header('Location: '.$configuration['siteurl'].'index.php');
