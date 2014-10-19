@@ -1,4 +1,3 @@
-<pre>
 <?php include('includes/config.php'); ?>
 <?php if (!isset($_SESSION['result']))
 {
