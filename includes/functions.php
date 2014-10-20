@@ -234,13 +234,30 @@ function actionPaypalCancel($token)
 
 function sendConfirmationEmail()
 {
-    global $lang;
+    require 'phpmailer/class.phpmailer.php';
+    $body = file_get_contents(PATH.'files/html_'.$lang.'.html');
+    $body = sprintf($body, $text1, $img1, $text2, $img2, $text3, $text4, $text6);
+	$mail = new PHPMailer();
+	$mail->ContentType = 'text/plain'; 
+	$mail->IsHTML(false);
+	$mail->isSendmail();
+	$mail->setFrom('info@proformproducts.com', utf8_decode('Les produits Pro Form LTÉE'));
+	$mail->Subject = utf8_decode($_POST['form_name']);
+	$mail->Body = utf8_decode($message);
+	$mail->clearAddresses();
+	$mail->addAddress('m.barrette@proformproducts.com');
+	$mail->send();
+	$mail->clearAddresses();
+	$mail->addAddress('info@proformproducts.com');
+	$mail->send();
+
+    /*global $lang;
     
     $configuration = array('email', array(
         'outgoing' => array(
             'transport' => 'sendmail', // smtp or sendmail or mail
             'parameters' => array(
-                'path' => '/usr/sbin/sendmail', // pour sendmail, pas nécessaire pour smtp
+                'path' => '/usr/sbin/sendmail', 
             ),
             'fromName' => 'Test Paypal',
             'fromAddress' => 'info@test.com',
@@ -257,24 +274,16 @@ function sendConfirmationEmail()
 	$adminMailer = new Mailer(Mailer::OUTGOING_SERVER);
 	
 	$message = new Message();
-	$adminMessage = new Message();
 	$message->setSubject('Order Confirmation');
-	$adminMessage->setSubject('Order Confirmation');
 	$message->setFrom('info@test.com', 'test.com');
-	$adminMessage->setFrom('info@test.com', 'test.com');
 	$message->setTo($_SESSION['PayerAddress']);
-	$adminMessage->setTo('jabouzi@gmail.com');
 	
 	// Gestion des templates
-	$htmlContent = file_get_contents(ROOT . 'templates' . '/' . $lang . '/email.html');
-	$adminHtmlContent = file_get_contents(ROOT . 'templates' . '/' . $lang . '/adminEmail.html');
-	$plainContent = file_get_contents(ROOT . 'templates' . '/' . $lang .  '/email.txt');
-	$adminPlainContent = file_get_contents(ROOT . 'templates' . '/' . $lang . '/adminEmail.txt');
+	$htmlContent = file_get_contents('../templates/email.html');
+	$plainContent = file_get_contents('../templates/email.txt');
 	
 	$templateHtml = new Template($htmlContent);
-	$adminTemplateHtml = new Template($adminHtmlContent);
 	$templatePlainText = new Template($plainContent);
-	$adminTemplatePlainText = new Template($adminPlainContent);
 
     $itemsList = sprintf($data['gift_card'], $item['quantity'], Translate::formatNumber($item['amount'], $lang));	
 	$itemsList .= sprintf($data['delivry_fee'], Translate::formatNumber($order['shipping_total'], $lang));
@@ -364,8 +373,8 @@ function sendConfirmationEmail()
 		//foreach ($attachments as $a) {
 			//@unlink($a);
 		//}
-	//}
-}*/
+	//}*/
+}
 
 function createPdf($sum, $id, $order)
 {
@@ -382,54 +391,6 @@ function createPdf($sum, $id, $order)
 	$pdf->Output($pdfFilename, 'F');
     
 	return $pdfFilename;
-}
-
-function get_order_sum($order_items = array())
-{
-    $sum = 0;
-    if (!count($order_items))
-    {
-        if (isset($_SESSION['cart']))
-        {
-            foreach($_SESSION['cart'] as $key => $order)
-            {
-                $sum = $sum + ((double)$key * (double)$order);
-            } 
-        }
-    }
-    else
-    {
-        foreach($order_items as $item)
-        {
-            $sum = $sum + ((double)$item['amount'] * (double)$item['quantity']);
-        } 
-    }
-    
-    return $sum;
-}
-
-function get_order_count($order_items = array())
-{
-    $count = 0;
-    if (!count($order_items))
-    {
-        if (isset($_SESSION['cart']))
-        {
-            foreach($_SESSION['cart'] as $key => $order)
-            {
-                $count = $count + intval($order);
-            } 
-        }
-    }
-    else
-    {
-        foreach($order_items as $item)
-        {
-            $count = $count + intval($item['quantity']);
-        } 
-    }
-    
-    return $count;
 }
 
 function generate_guid()

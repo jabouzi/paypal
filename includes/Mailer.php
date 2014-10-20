@@ -4,7 +4,7 @@ require_once 'MimeType.php';
 require_once 'PHPMailer/PHPMailer.php';
 require_once 'Message.php';
 
-class SimpleMailer {
+class Mailer {
 
     private $stream = null;
     private $config = array();
@@ -30,12 +30,12 @@ class SimpleMailer {
         'outgoing' => array(
                 'transport' => 'sendmail', // smtp or sendmail or mail
                 'parameters' => array(
-                    'path' => '/usr/sbin/sendmail', // pour sendmail, pas nécessaire pour smtp
+                    'path' => '/usr/sbin/sendmail',
                 ),
-                'fromName' => 'skyspa.ca',
-                'fromAddress' => 'info@skyspa.ca',
+                'fromName' => 'test.com',
+                'fromAddress' => 'info@test.com',
             ),
-            'adminAddress' => 'info@skyspa.ca',
+            'adminAddress' => 'info@test.com',
         ));
     
         if ($autoConnect) {
@@ -89,7 +89,7 @@ class SimpleMailer {
                 }
                 $messages = imap_fetch_overview($this->stream, $range);
                 foreach ($messages as $message) {
-                    $result[$message->msgno] = new SimpleMessage($this->stream, (array) $message);
+                    $result[$message->msgno] = new Message($this->stream, (array) $message);
                 }
             } catch (Exception $e) {
                 $this->error = $e->getMessage() . $e->getLine() . "\n" . '[ERR_GET_MESSAGES] - ' . imap_last_error();
@@ -124,7 +124,7 @@ class SimpleMailer {
         }
     }
 
-    public function send(SimpleMessage $message)
+    public function send(Message $message)
     {   
         if ($this->direction == self::OUTGOING_SERVER) {
             $retVal = true;
@@ -206,7 +206,7 @@ class SimpleMailer {
             }
             //catch exception
             catch(Exception $e) {
-               $this->error = 'SimpleMailer::send() - ' . $e->getMessage() . ' on line ' . $e->getLine();
+               $this->error = 'Mailer::send() - ' . $e->getMessage() . ' on line ' . $e->getLine();
                $retVal = false;
             }
 
@@ -218,11 +218,6 @@ class SimpleMailer {
         }
     }
 
-    /**
-     * Connexion au serveur entrant
-     *
-     * @return boolean TRUE si succès , FALSE si failure.
-     */
     private function connectToIncoming() {
        try {
 
@@ -256,11 +251,6 @@ class SimpleMailer {
         return true;
     }
 
-    /**
-     * Initialisation du serveur sortant
-     *
-     * @return boolean TRUE si succès , FALSE si failure.
-     */
     private function setOutgoing() {
        try {
            $this->stream = new PHPMailer();
