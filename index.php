@@ -93,12 +93,10 @@
 													expiration date<br>
 													<label for="creditcard_exp_month">expiration date (month)</label>
 													<input maxlength="2" placeholder="mm" name="Creditcard[ExpMonth]" id="creditcard_exp_month" type="text" class="numberonly" data-validate="required">
-													
+													<label id="help-creditcard_exp_year" style="display:none" class="required-error">required</label>
 
 													<label for="creditcard_exp_year">expiration date (year)</label>
 													<input maxlength="2" placeholder="aa" name="Creditcard[ExpYear]" id="creditcard_exp_year" type="text" class="numberonly" data-validate="required">
-													
-													<label id="help-creditcard_exp_year" style="display:none" class="required-error">required</label>
 													<label id="help-creditcard_exp_month" style="display:none" class="required-error">required</label>
 
 												</div>
