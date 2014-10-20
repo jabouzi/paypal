@@ -2060,7 +2060,7 @@ input:focus, select:focus {
     padding: 4px 5px;
 }
 .fields .label label {
-    display: block;
+    display: inline;
     margin: 0;
     text-indent: -999em;
     width: 0;
