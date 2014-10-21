@@ -4,5 +4,8 @@ include('includes/config.php');
 
 if (isset($_GET['token'])) 
 {
-	actionPaypalReturn($_GET['token'], $_GET['PayerID']);
+	$_SESSION['result'] = actionPaypalReturn($_GET['token'], $_GET['PayerID']);
 }
+
+header('Location: '.$configuration['siteurl'].'complete.php');
+exit();

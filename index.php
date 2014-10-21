@@ -72,17 +72,17 @@
 														</dd>
 													</dl>
 												</fieldset>
-											</div>
-										</div>
-									</fieldset>
-									<fieldset class="sept credit">
-											<div class="fields twofields">
 												<div class="fields twofields">
 													<label>Price<br>
 														<input maxlength="6" placeholder="" name="Creditcard[Price]" type="text" value="10.00" id="price" class="priceonly" data-validate="required"> $
 														<label id="help-price" style="display:none" class="required-error">required</label>
 													</label>
 												</div>
+											</div>
+										</div>
+									</fieldset>
+									<fieldset class="sept credit">
+											<div class="fields twofields">
 												<fieldset id="payment_method_choice">
 												<label>
 													card number<br>
