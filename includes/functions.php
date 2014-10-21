@@ -205,12 +205,9 @@ function actionPaypalReturn($token, $transactionId)
     if ($token) 
     {
 		$order_total = get_order_value('order_total', $token);
-		$type = get_order_value('order_description', $token);
-		var_dump($order_total, $token);
-
         $paypal = parseToPaypal();
         $result = $paypal->confirmExpressCheckout(false, $order_total, $token);
-        var_dump($result);exit;
+
         if (is_array($result)) 
         {
             update_order('status', 'Refused');
@@ -567,9 +564,8 @@ function get_order_value($champ, $token)
 		'token' => $token,
     );
     $query = "SELECT {$champ} FROM orders WHERE token = :token";
-    var_dump($args, $query);
     $res = $db->query($query, $args);
-    var_dump($res);
+
     return $res[0][$champ];
 }
 
