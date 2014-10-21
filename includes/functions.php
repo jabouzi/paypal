@@ -567,6 +567,7 @@ function get_order_value($champ)
 		':uid' => $_SESSION['uid'],
     );
     $query = "SELECT {$champ} FROM orders WHERE uid = :uid";
+    var_dump($query);
     $res = $db->query($query, $args);
     return $res[0][$champ];
 }
