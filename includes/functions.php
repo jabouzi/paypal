@@ -107,8 +107,8 @@ function sendPaypalRequest()
     $paypal->amount = $_SESSION['Creditcard']['Price'] + (double)$shipping_total;
     $paypal->description = 'Test Product';
     $paypal->noShipping = $noShipping;
-    $paypal->description = '...';
-    $paypal->logoimg = '';
+    $paypal->description = 'Paypal Payments Demo Test';
+    $paypal->logoimg = $configuration['siteurl'].'/images/simple_linux_logo_by_dablim-d5k4ghu_small.png';
 
     if ($paypal->sendExpressCheckoutRequest(false)) 
     {
