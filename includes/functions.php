@@ -206,8 +206,11 @@ function actionPaypalReturn($token, $transactionId)
     {
 		$order_total = get_order_value('order_total', $token);
 		$type = get_order_value('order_description', $token);
-        $paypal = parseToPaypal($type);
+		var_dump($order_total, $token);
+
+        $paypal = parseToPaypal();
         $result = $paypal->confirmExpressCheckout(false, $order_total, $token);
+        var_dump($result);exit;
         if (is_array($result)) 
         {
             update_order('status', 'Refused');
