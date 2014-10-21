@@ -106,7 +106,7 @@ function sendPaypalRequest()
     $paypal->shippingTotal = (double)$shipping_total;
     $paypal->amount = $_SESSION['Creditcard']['Price'] + (double)$shipping_total;
     $paypal->description = 'Test Product';
-    $paypal->noShipping = $noShipping;
+    $paypal->noShipping = 0;
     $paypal->description = 'Paypal Payments Demo Test';
     $paypal->logoimg = $configuration['siteurl'].'/images/simple_linux_logo_by_dablim-d5k4ghu_small.png';
 
