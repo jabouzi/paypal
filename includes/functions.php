@@ -200,7 +200,6 @@ function actionConfirm()
 
 function actionPaypalReturn($token, $transactionId)
 {
-    global $data;
     $errors = array();
 
     if ($token) 
@@ -560,6 +559,7 @@ function update_order($champ, $value)
 
 function get_order_value($champ)
 {
+	global $db;
     $args = array(
 		':uid' => $_SESSION['uid'],
     );
