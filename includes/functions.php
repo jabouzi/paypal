@@ -560,13 +560,13 @@ function update_order($champ, $value)
     $db->query($query, $args);
 }
 
-function get_order_value($champ)
+function get_order_value($champ, $token)
 {
 	global $db;
     $args = array(
-		':uid' => $_SESSION['uid'],
+		'token' => $token,
     );
-    $query = "SELECT {$champ} FROM orders WHERE uid = :uid";
+    $query = "SELECT {$champ} FROM orders WHERE token = :token";
     var_dump($args, $query);
     $res = $db->query($query, $args);
     var_dump($res);
