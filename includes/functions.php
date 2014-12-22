@@ -214,8 +214,9 @@ function actionPaypalCancel($token)
 	}
 }
 
-public function sendusermail($user)
+function sendusermail($user)
 {
+	require 'mailer.php';
 	try {
 		$this->mailer = new Mailer();
 		$this->mailer->setFrom("TGI", "contact@tonikgrupimage.com");
