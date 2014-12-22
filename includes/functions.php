@@ -231,6 +231,7 @@ function actionPaypalCancel($token)
 	}
 }
 
+/*
 function sendConfirmationEmail()
 {
     require 'phpmailer/class.phpmailer.php';

@@ -29,21 +29,21 @@ $db->setPort();
 $db->connect(); 
 $db->query("SET NAMES 'utf8'",'');
 
-//$configuration['paypal'] = array(
-	//'environment' => 'sandbox',
-	//'APIUsername' => 'jabouzi_api1.gmail.com',
-	//'APIPassword' => '4X6MBWTCUJSVL7JS',
-	//'APISignature' => 'AFcWxV21C7fd0v3bYYYRCpSSRl31As0cm3KQl7X48szW.6PrWXS8NxCU',
-	//'APICertificate' => null,
-	//'paypalUrl' => 'https://www.sandbox.paypal.com/',
-//);
 $configuration['paypal'] = array(
 	'environment' => 'sandbox',
-	'APIUsername' => 'cla-facilitator_api1.sajy.com',
-	'APIPassword' => '1410979375',
-	'APISignature' => 'An5ns1Kso7MWUdW4ErQKJJJ4qi4-AXyjSzOSp58ksAMSKEjGJ..jvQ6r',
+	'APIUsername' => 'jabouzi_api1.gmail.com',
+	'APIPassword' => '4X6MBWTCUJSVL7JS',
+	'APISignature' => 'AFcWxV21C7fd0v3bYYYRCpSSRl31As0cm3KQl7X48szW.6PrWXS8NxCU',
 	'APICertificate' => null,
 	'paypalUrl' => 'https://www.sandbox.paypal.com/',
 );
+//$configuration['paypal'] = array(
+	//'environment' => 'sandbox',
+	//'APIUsername' => 'cla-facilitator_api1.sajy.com',
+	//'APIPassword' => '1410979375',
+	//'APISignature' => 'An5ns1Kso7MWUdW4ErQKJJJ4qi4-AXyjSzOSp58ksAMSKEjGJ..jvQ6r',
+	//'APICertificate' => null,
+	//'paypalUrl' => 'https://www.sandbox.paypal.com/',
+//);
 
 $configuration['siteurl'] = 'http://test.jabouzi.com/';
