@@ -373,8 +373,8 @@ function sendConfirmationEmail()
 		//foreach ($attachments as $a) {
 			//@unlink($a);
 		//}
-	//}*/
-}
+	//}
+}*/
 
 function createPdf($sum, $id, $order)
 {
