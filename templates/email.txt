@@ -1,21 +1,12 @@
-TEST
-%s| 1 800-555-5555
+YOU COMPANY NAME
+YOUR COMOPANY PHONE | 1 800-555-5555
 
-
-Hello %s,
 
 Thank you for purchasing a test product. The product of well-being is the greatest product of all.
-
-%s
 
 ===================================
 
 Confirmation number:
-%s
-
---------------------------------
-
-Purchases:
 %s
 
 --------------------------------
@@ -26,4 +17,4 @@ Total :
 ===================================
 
 Visit our site at
-%s
+YOUT COMPANY WEB SITE
