@@ -65,7 +65,7 @@ function sendCreditRequest()
 {
     $errors = array();
 
-    $shipping_total = 5.0;
+    $shipping_total = $_SESSION['Creditcard']['Shipping'];
      
     $paypal = parseToPaypal();
     $paypal->CardOwner = $_SESSION['Creditcard']['CardOwner'];
@@ -97,7 +97,7 @@ function sendPaypalRequest()
 {
     global $data, $configuration;
     $errors = array();
-    $shipping_total = 5.0;
+    $shipping_total = $_SESSION['Creditcard']['Price'];
     
     $paypal = parseToPaypal();
     $paypal->returnURL = $configuration['siteurl']."return.php";
@@ -122,23 +122,6 @@ function sendPaypalRequest()
     }
 
 }
-
-//function getPaypalErrors($errorsCodes)
-//{
-    //global $data;
-    //$errors = array();
-    //foreach ($errorsCodes as $code) {
-        //if (!is_numeric($code)) continue;
-        //$code = (int)$code;
-        //$errors[] = $data['paypal_'.$code];
-    //}
-    //
-    //if (count($errors) == 0) {
-        //$errors[] = 'Transaction Failed';
-    //}
-    //
-    //return $errors;
-//}
 
 function actionConfirm()
 {    
@@ -499,7 +482,7 @@ function save_billing_address()
     return $db->lastInsertId();
 }
 
-function save_order($payerAddressId, $shippingAddressId, $cardType, $price)
+function save_order($payerAddressId, $shippingAddressId, $cardType, $price, $shipping)
 {
 	global $db;
 	$_SESSION['uid'] = generate_guid();
@@ -509,7 +492,7 @@ function save_order($payerAddressId, $shippingAddressId, $cardType, $price)
 		':billing_id' => $payerAddressId,
 		':shipping_id' => $shippingAddressId,
 		':token' => '0',
-		':order_total' => ($price + 5.0),
+		':order_total' => ($price + $shipping),
 		':order_description' => 'Paypal_payement_'.$cardType,
 		':status' => '',
 		':paypal_error_codes' => '',
