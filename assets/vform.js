@@ -27,7 +27,7 @@ function process_validated_form(e, required, form_id)
 	{
 		if ($('#creditcardnumber').is(":visible"))
 		{
-			$.get("ajax/validate_cc.php", {cc : $('#creditcardnumber').val(), year : $('#creditcard_exp_year').val(), month : $('#creditcard_exp_month').val() }, function(data) {
+			$.get("/ajax/validate_cc.php", {cc : $('#creditcardnumber').val(), year : $('#creditcard_exp_year').val(), month : $('#creditcard_exp_month').val() }, function(data) {
 				if (data == 0)
 				{
 					$('#'+form).unbind().submit();
