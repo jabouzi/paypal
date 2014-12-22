@@ -214,166 +214,19 @@ function actionPaypalCancel($token)
 	}
 }
 
-/*
-function sendConfirmationEmail()
+public function sendusermail($user)
 {
-    require 'phpmailer/class.phpmailer.php';
-    $body = file_get_contents(PATH.'files/html_'.$lang.'.html');
-    $body = sprintf($body, $text1, $img1, $text2, $img2, $text3, $text4, $text6);
-	$mail = new PHPMailer();
-	$mail->ContentType = 'text/plain'; 
-	$mail->IsHTML(false);
-	$mail->isSendmail();
-	$mail->setFrom('info@proformproducts.com', utf8_decode('Les produits Pro Form LTÉE'));
-	$mail->Subject = utf8_decode($_POST['form_name']);
-	$mail->Body = utf8_decode($message);
-	$mail->clearAddresses();
-	$mail->addAddress('m.barrette@proformproducts.com');
-	$mail->send();
-	$mail->clearAddresses();
-	$mail->addAddress('info@proformproducts.com');
-	$mail->send();
-
-    /*global $lang;
-    
-    $configuration = array('email', array(
-        'outgoing' => array(
-            'transport' => 'sendmail', // smtp or sendmail or mail
-            'parameters' => array(
-                'path' => '/usr/sbin/sendmail', 
-            ),
-            'fromName' => 'Test Paypal',
-            'fromAddress' => 'info@test.com',
-        ),
-        'adminAddress' => 'info@test.ca',
-    ));
-    
-    require_once 'Mailer.php';
-    require_once 'Template.php';
-    
-	// Envoi du email
-	$emailConfig = $configuration['email']['outgoing'];
-	$mailer = new Mailer(Mailer::OUTGOING_SERVER);
-	$adminMailer = new Mailer(Mailer::OUTGOING_SERVER);
-	
-	$message = new Message();
-	$message->setSubject('Order Confirmation');
-	$message->setFrom('info@test.com', 'test.com');
-	$message->setTo($_SESSION['PayerAddress']);
-	
-	// Gestion des templates
-	$htmlContent = file_get_contents('../templates/email.html');
-	$plainContent = file_get_contents('../templates/email.txt');
-	
-	$templateHtml = new Template($htmlContent);
-	$templatePlainText = new Template($plainContent);
-
-    $itemsList = sprintf($data['gift_card'], $item['quantity'], Translate::formatNumber($item['amount'], $lang));	
-	$itemsList .= sprintf($data['delivry_fee'], Translate::formatNumber($order['shipping_total'], $lang));
-	
-	
-	
-		$shippingAddress = 'Nom: ' .$shipping_address['first_name'] . ' ' . 
-			$shipping_address['last_name'] . '<br />';
-		$shippingAddress .= 'Adresse: ' . $shipping_address['street1'] . ' ' .
-			$shipping_address['street2'] . '<br />' . $shipping_address['city_name'] . ', ' .
-			$shipping_address['state_or_province'] . ', ' . $shipping_address['postal_code'] . '<br />';
-
-	
-		$payerAddress = $order_address['phone'] . '<br />';
-		$payerAddress .= 'Courriel : ' . $order_address['email']. '<br /><br />';
-
-
-		$payerAddress = 'Nom: ' .$order_address['first_name'] . ' ' . 
-			$order_address['last_name'] . '<br />';
-		$payerAddress .= 'Adresse: ' . $order_address['street1'] . ' ' .
-			$order_address['street2'] . '<br />' . $order_address['city_name'] . ', ' .
-			$order_address['state_or_province'] . ', ' . $order_address['postal_code'] . '<br />';
-		$payerAddress .= $order_address['phone'] . '<br />';
-		$payerAddress .= 'Courriel : ' . $order_address['email'] . '<br /><br />';
-
-	
-	if (isset($order['lastCreditCardDigit']) && strlen($order['lastCreditCardDigit']) == 4) {
-		$creditCard = 'xxxx-xxxx-xxxx-' . $order['lastCreditCardDigit'] . '<br />';
-	} else {
-		$creditCard = 'Payé par paypal';
+	try {
+		$this->mailer = new Mailer();
+		$this->mailer->setFrom("TGI", "contact@tonikgrupimage.com");
+		$this->mailer->addRecipient($user['user_first_name'].' '.$user['user_last_name'], $user['user_email']);
+		$this->mailer->fillSubject(lang('account.email.subject'));
+		$this->mailer->fillMessage($this->message);
+		$this->mailer->send();
+	} catch (Exception $e) {
+		echo $e->getMessage();
+		exit(0);
 	}
-    
-	$str =  $data['one_card'];
-    if ($nbItems > 1) $str = $data['many_cards'];
-	$variables = array(
-		'User' => $order_address['first_name'] . ' ' . 
-			$order_address['last_name'],
-		'urlRoot' => SITE_URL,
-		'transactionId' => $order['transaction_id'],
-		'itemsList' => $itemsList,
-		'orderTotal' => sprintf($data['text_format'],  Translate::formatNumber(get_order_sum($order_items), $lang)),
-		'shippingRelatedMessage' => $shippingRelatedMessage,
-        'productType' => $str
-	);
-	$adminVariables = array_merge($variables, array(
-		'shippingMethod' => $shippingMethod,
-		'shippingAddress' => $shippingAddress,
-		'payerAddress' => $payerAddress,
-		'creditcard' => $creditCard,
-		
-	));
-	$templatePlainText->prepareContent($variables);
-	$adminTemplatePlainText->prepareContent($adminVariables);
-	$templateHtml->prepareContent($variables);
-	$adminTemplateHtml->prepareContent($adminVariables);
-	
-	$message->setPlainTextBody($templatePlainText->getContent());
-	$adminMessage->setPlainTextBody($adminTemplatePlainText->getContent());
-	$message->setHtmlBody($templateHtml->getContent());
-	$adminMessage->setHtmlBody($adminTemplateHtml->getContent());
-	
-	if ($order['shipping_method'] == 'email') {
-		$attachments = array();
-		$cpt = 1;
-		foreach ($order_items as $item) {
-			for ($i=1;$i<=$item['quantity'];$i++) {
-				$id = str_pad($cpt, 2, '0', STR_PAD_LEFT);
-				$attachments[] = createPdf($item['amount'], $id, $order);
-				$cpt++;
-			}
-		}
-		$message->setAttachments($attachments);
-		$adminMessage->setAttachments($attachments);
-	}
-	if (!$mailer->send($message)) {
-		//Error::getInstance()->log('Mailer: ' . $mailer->getError() . '\n');
-		$errors[] = $data['error_mail'];
-		//$this->saveInSession();
-	}
-	if (!$adminMailer->send($adminMessage)) {
-		//Error::getInstance()->log('Mailer: ' . $adminMailer->getError() . '\n');
-	}
-	
-	$mailer->disconnect();
-	$adminMailer->disconnect();
-	//if (isSet($attachments) && count($attachments) > 0) {
-		//foreach ($attachments as $a) {
-			//@unlink($a);
-		//}
-	//}
-}*/
-
-function createPdf($sum, $id, $order)
-{
-    global $lang;
-    require_once ROOT.'includes/PDF.php';
-	$price = $sum;
-	$transaction_id = $order['transaction_id'] . '-' . $id;
-	$unique = sha1(uniqid(time()));
-	$date = time(); //optional . Today as default.
-	$pdfFilename = '/tmp/certificate_' . $sum . '_' . $unique . '.pdf';
-	
-	$pdf = new PDF($lang, $price, $transaction_id, $date);
-	$pdf->distiller();
-	$pdf->Output($pdfFilename, 'F');
-    
-	return $pdfFilename;
 }
 
 function generate_guid()
