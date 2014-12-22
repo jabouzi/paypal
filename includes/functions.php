@@ -218,12 +218,12 @@ function send_email($email, $message)
 {
 	require 'mailer.php';
 	try {
-		$this->mailer = new Mailer();
-		$this->mailer->setFrom("Paypal APP", "payement@yourwebsite.com");
-		$this->mailer->addRecipient($email);
-		$this->mailer->fillSubject('Your Paypal Payement Rrecieved');
-		$this->mailer->fillMessage();
-		$this->mailer->send();
+		$mailer = new Mailer();
+		$mailer->setFrom("Paypal APP", "payement@yourwebsite.com");
+		$mailer->addRecipient($email);
+		$mailer->fillSubject('Your Paypal Payement Rrecieved');
+		$mailer->fillMessage();
+		$mailer->send();
 	} catch (Exception $e) {
 		echo $e->getMessage();
 		exit(0);
