@@ -214,15 +214,15 @@ function actionPaypalCancel($token)
 	}
 }
 
-function sendusermail($user)
+function send_email($email, $message)
 {
 	require 'mailer.php';
 	try {
 		$this->mailer = new Mailer();
-		$this->mailer->setFrom("TGI", "contact@tonikgrupimage.com");
-		$this->mailer->addRecipient($user['user_first_name'].' '.$user['user_last_name'], $user['user_email']);
-		$this->mailer->fillSubject(lang('account.email.subject'));
-		$this->mailer->fillMessage($this->message);
+		$this->mailer->setFrom("Paypal APP", "payement@yourwebsite.com");
+		$this->mailer->addRecipient($email);
+		$this->mailer->fillSubject('Your Paypal Payement Rrecieved');
+		$this->mailer->fillMessage();
 		$this->mailer->send();
 	} catch (Exception $e) {
 		echo $e->getMessage();
