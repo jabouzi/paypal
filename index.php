@@ -77,6 +77,10 @@
 														<input maxlength="6" placeholder="" name="Creditcard[Price]" type="text" value="10.00" id="price" class="priceonly" data-validate="required"> $
 														<label id="help-price" style="display:none" class="required-error">required</label>
 													</label>
+													<label>Shipping<br>
+														<input maxlength="6" placeholder="" name="Creditcard[Shipping]" type="text" value="5.00" id="price" class="priceonly" data-validate="required"> $
+														<label id="help-price" style="display:none" class="required-error">required</label>
+													</label>
 												</div>
 											</div>
 										</div>
