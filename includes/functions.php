@@ -220,7 +220,7 @@ function send_email($email, $message)
 	try {
 		$mailer = new Mailer();
 		$mailer->setFrom("Paypal APP", "payement@yourwebsite.com");
-		$mailer->addRecipient($email);
+		$mailer->addRecipient('', $email);
 		$mailer->fillSubject('Your Paypal Payement Rrecieved');
 		$mailer->fillMessage();
 		$mailer->send();
